@@ -51,9 +51,9 @@ app.get('/idHash', (req,res) => {
     //var fbID = 13264652373;
     var hashId = hashids.encode(fbID);
     console.log(hashId);
-    res.send({
-        id: hashId
-    });
+    res.send(JSON.stringify({
+        'id' : hashId
+        }));
 });
 
 
