@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const exphbs = require('express-handlebars');
-const model = require('./Database/db.js');
 var Hashids = require('hashids');
 var hashids = new Hashids();
 
