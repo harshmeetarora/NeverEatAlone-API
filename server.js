@@ -46,7 +46,7 @@ app.get('/test', (req,res) => {
 
 
 app.post('/idHash', (req,res) => {
-    var fbID = req.body.id;
+    var fbID = req.id;
     //var fbID = 13264652373;
     var hashId = hashids.encode(fbID);
     console.log(hashId);
