@@ -1,24 +1,3 @@
-// const express = require('express');
-// const bodyparser = require('body-parser');
-// const app = express();
-
-// app.get('/home', (req,res) => {
-//     res.send("Hello");
-// });
-
-// app.listen(3000, () => console.log("SERVER STARTED..."));
-
-
-//------------------------------------------------------------------
-const testClient = {
-	name: "Laurenz",
-	id : 1,
-	age: "sda",
-}
-const nameSearch = "Laurenz";
-const idSearch = 1;
-
-
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
@@ -30,24 +9,26 @@ const dbName = 'nevereatalone';
 const client = new MongoClient(url);
 
 // Use connect method to connect to the server
-client.connect(function(err) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
+// callback is operation function
+//item is item to store or search db for
+const callDB = (callback, item) => {
+  client.connect(function(err) {
+    assert.equal(null, err);
+    console.log("Connected successfully to server");
 
-  const db = client.db(dbName);
+    const db = client.db(dbName);
 
-  // addNewClient(db, testClient,function() {
-  //   findClientByName(db, nameSearch, function() {
-  //   	findClientByID(db, idSearch,function() {
-  //   		client.close();
-  //   	});
-  //   });
-  // });
-
-  clearDatabase(db, function(){
-  	client.close();
+    if (item == undefined)
+      callback(db, function(){
+        client.close();
+      });
+    else 
+      callback(db, item, function(){
+        client.close();
+      }); 
   });
-});
+};
+
 
 //------------------------------------------------------------------
 
@@ -97,13 +78,14 @@ const clearDatabase = function(db, callback) {
   const collection = db.collection('clients');
   // Find some documents
   collection.deleteMany({},
-  	function(err, results) {
+    function(err, results) {
         console.log("\n" + "Database collection 'clients' has been cleared of all items");
         callback();
     }
   );
 
 }
+
 
 
 
