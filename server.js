@@ -21,30 +21,6 @@ app.get('/test', (req,res) => {
     res.send("Hello");
 });
 
-
-
-
-
-
-
-// model.callDB(model.addNewClient, testClientHarsh)
-// .then(() => {
-// console.log ("OOOOOOOOO");
-// res.send("Hello");
-// });
-
-
-// model.callDB(model.addNewClient, testClientHarsh)
-// .then(() => {
-// console.log ("OOOOOOOOO");
-// res.send("Hello");
-// });
-
-
-
-
-
-
 app.post('/idHash', (req,res) => {
     //var fbID = req.id;
     //console.log(fbID);
@@ -56,23 +32,14 @@ app.post('/idHash', (req,res) => {
         }));
 });
 
-
-
-
-
-
 // app.get('/addUser', (req,res) => {
 
 //     //var user = req.user;
 //     console.log("db");
 //     model.callDB(model.addNewClient, testClientHarsh)
 //     .then(() => {
-//     console.log ("OOOOOOOOO");
 //     res.send("Hello");
 //     });
 // });
 
-// app.post('/users', function(req, res) {
-//     console.log("body", req.body);
-// });
 app.listen(port, () => console.log("SERVER STARTED..."));
