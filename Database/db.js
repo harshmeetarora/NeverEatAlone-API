@@ -72,4 +72,11 @@ var deleteClient = function(clientInfo){
 // findClient({"name": "Harsh"});
 
 
+module.exports = {
+  addNewClient : addNewClient,
+  findClient : findClient,
+  clearDatabase :  clearDatabase 
+};
+
+
 

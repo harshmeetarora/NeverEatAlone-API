@@ -3,6 +3,7 @@ const bodyparser = require('body-parser');
 const exphbs = require('express-handlebars');
 var Hashids = require('hashids');
 var hashids = new Hashids();
+const model = require('./Database/db.js');
 
 
 
@@ -10,7 +11,7 @@ const testClientHarsh = {
 	name: "Harsh",
 	id : 7,
 	age: "22",
-}
+};
 
 var port = process.env.PORT || 3000;
 
@@ -32,14 +33,14 @@ app.post('/idHash', (req,res) => {
         }));
 });
 
-// app.get('/addUser', (req,res) => {
+app.get('/addUser', (req,res) => {
 
-//     //var user = req.user;
-//     console.log("db");
-//     model.callDB(model.addNewClient, testClientHarsh)
-//     .then(() => {
-//     res.send("Hello");
-//     });
-// });
+    //var user = req.user;
+    console.log("db");
+    model.addNewClient(testClientHarsh);
+    //.then(() => {
+    res.send("Hello");
+    //});
+});
 
 app.listen(port, () => console.log("SERVER STARTED..."));
