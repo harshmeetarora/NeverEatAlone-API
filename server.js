@@ -22,18 +22,21 @@ app.get('/test', (req,res) => {
     res.send("Hello");
 });
 
+
+app.use(express.json());
+
 app.post('/idHash', (req,res) => {
-    //var fbID = req.id;
-    //console.log(fbID);
-    var fbID = 13264652373;
+    var fbID = req.body.id;
+    console.log(fbID);
+    //var fbID = 13264652373;
     var hashId = hashids.encode(fbID);
-    console.log(hashId);
+    console.log("hashId: " + hashId);
     res.send(JSON.stringify({
         'id' : hashId
         }));
 });
 
-app.get('/addUser', (req,res) => {
+app.post('/addUser', (req,res) => {
 
     //var user = req.user;
     console.log("db");
