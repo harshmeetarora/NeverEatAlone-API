@@ -23,7 +23,7 @@ app.get('/test', (req,res) => {
 });
 
 app.post('/idHash', (req,res) => {
-    var fbID = req.id;
+    var fbID = req.body;
     console.log(fbID);
     //var fbID = 13264652373;
     var hashId = hashids.encode(fbID);
@@ -33,7 +33,7 @@ app.post('/idHash', (req,res) => {
         }));
 });
 
-app.get('/addUser', (req,res) => {
+app.post('/addUser', (req,res) => {
 
     //var user = req.user;
     console.log("db");
