@@ -26,7 +26,7 @@ app.get('/test', (req,res) => {
 app.use(express.json());
 
 app.post('/idHash', (req,res) => {
-    var fbID = req.body;
+    var fbID = req.body.id;
     console.log(fbID);
     //var fbID = 13264652373;
     var hashId = hashids.encode(fbID);
