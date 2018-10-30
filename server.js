@@ -23,11 +23,11 @@ app.get('/test', (req,res) => {
 });
 
 app.post('/idHash', (req,res) => {
-    var fbID = req.body;
+    var fbID = JSON.parse(req.body);
     console.log(fbID);
     //var fbID = 13264652373;
     var hashId = hashids.encode(fbID);
-    console.log(hashId);
+    console.log("hashId: " + hashId);
     res.send(JSON.stringify({
         'id' : hashId
         }));
