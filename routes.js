@@ -1,6 +1,8 @@
 let express = require('express');
 let router  = express.Router();
 
+const model = require('./Database/db.js');
+
 
 //test 
 router.route('/test')
