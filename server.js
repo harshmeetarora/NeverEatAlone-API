@@ -1,15 +1,14 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const exphbs = require('express-handlebars');
-var Hashids = require('hashids');
-var hashids = new Hashids();
-const model = require('./Database/db.js');
 
 const testClientHarsh = {
 	name: "Harsh",
 	id : 7,
 	age: "22",
 };
+
+console.log("AAAAAAAAAAAAAAAHHHHHHHHHGGGGHHHHHRRRRR");
 
 var port = process.env.PORT || 3000;
 
