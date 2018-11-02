@@ -39,10 +39,11 @@ router.route('/addUser')
 //PUT update user location
 router.route('/updateLocation')
     .put((req,res) => {
+        let id = req.id;
         let location = req.location;
         console.log("location");
-        model.updateLocation(location);
-        res.send("Location updated");
+        model.updateLocation(id, location);
+        res.send({'location' : location});
 });
 
 //GET friends in certain radius id
@@ -51,8 +52,8 @@ router.route('/getNearFriends')
     .get((req,res) => {
         let userId = req.userId;
         let radius = req.radius;
-        let friends = model.getFriends(userId);
-        let userLocation = model.getLocationById(userId);
+        let friends = model.findClientById(userId).friends;
+        let userLocation = model.getLocation(userId);
         // let userLocation = {latitude: 51.5103, longitude: 7.49347};
         // let friendLocation = {latitude: 23.5103, longitude: 42.49347};
         //let radius = 4311099;
