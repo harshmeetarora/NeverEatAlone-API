@@ -32,7 +32,7 @@ router.route('/addUser')
     .post((req,res) => {
         let user = req.user;
         console.log("db");
-        model.addNewClient(testClientHarsh);
+        model.addNewClient(user);
         res.send("user added");
 });
 
@@ -73,6 +73,11 @@ function getNearFriends(id, radius){
             }
         }
         return nearFriendsIds;
+}
+
+//get time
+function getTime(){
+
 }
 
 module.exports = router;
