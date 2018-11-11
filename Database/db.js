@@ -8,6 +8,50 @@ db.once('open', function() {
 	console.log("\n"+ "connected succesfully")
 });
 
+var calendarSchema = new mongoose.Schema({
+	userId: Number,
+	events: [{
+        date: String,
+        events: [{
+            key: Number,
+            title: String,
+            startTime: Number,
+            endTime: Number,
+       	}]
+   	}]
+});
+var Calendar = mongoose.model("Calendar", calendarSchema);
+
+var updateCalender = function(id, events){
+	Calendar.update({"userId": id}, { $set: {"events": events}},
+		function(err, data){
+			if (err) {
+				console.log("saving calendar failled");
+				console.log(data);
+			} else {
+				console.log("\n"+ "saved following item to calendar");
+				console.log(data);
+			}
+		}
+	);
+}
+
+var getCalender = function(id){
+	return new Promise(function(resolve,reject){
+		Calendar.find({"userId": id}, function(err, data){
+			if (err) {
+				console.log("getCalender failled");
+				console.log(data);
+				reject(err);
+			} else {
+				console.log("\n"+ "retrieved following calendar from db");
+				console.log(data);
+				resolve(data);
+			}
+		});
+	});
+}
+
 var clientSchema = new mongoose.Schema({
 	id : String,
 	name: String,
@@ -15,55 +59,58 @@ var clientSchema = new mongoose.Schema({
  	coordinates: {
  		lat: Number,
  		long: Number,
- 	}
+ 	},
+ 	friends: [{id: Number}]
 });
 
 var Client = mongoose.model("Client", clientSchema);
 
-
 var addNewClient = function(clientInfo){
-	Client.create(clientInfo, function(err, data){
-		if (err) {
-			console.log("saving client failled");
-			console.log(data);
-		} else {
-			console.log("\n"+ "saved following item to db");
-			console.log(data);
-		}
-	}
-);
+	return new Promise(function(resolve,reject){
+		Client.create(clientInfo, function(err, data){
+			if (err) {
+				console.log("saving client failled");
+				console.log(data);
+				reject(err);
+			} else {
+				console.log("\n"+ "saved following item to db");
+				console.log(data);
+				resolve(data);
+			}
+		});
+	});
 }
 
 var findClient = function(clientInfo){
-	var returnData;
-	Client.find(clientInfo, function(err, data){
-		if (err){
-			console.log("find failed with error:");
-			console.log(err);
-			return;
-		} else {
-			console.log("\n"+ "find returned:");
-			console.log(data);
-			returnData = data;
-		}
+	return new Promise(function(resolve,reject){
+		Client.find(clientInfo, function(err, data){
+			if (err){
+				console.log("find failed with error:");
+				console.log(err);
+				reject(err);
+				return;
+			} else {
+				console.log("\n"+ "find returned:");
+				console.log(data);
+				resolve(data);
+			}
+		});
 	});
-	return returnData;
 }
 
 var findClientById = function(id){
-	var returnData;
-	Client.find({"id": id}, function(err, data){
-		if (err){
-			console.log("find failed with error:");
-			console.log(err);
-			return;
-		} else {
-			console.log("\n"+ "findClientById with id:" + id + " returned:");
-			console.log(data);
-			returnData = data;
-		}
+	return new Promise(function(resolve,reject){
+		Client.find({"id": id}, function(err, data){
+			if (err){
+				console.log("find failed with error:");
+				console.log(err);
+				reject(err);
+			} else {
+				console.log("\n"+ "findClientById with id:" + id + " returned:");
+				console.log(data);
+				resolve(data);			}
+		});
 	});
-	return returnData;
 }
 
 
@@ -105,18 +152,18 @@ var deleteClientById = function(id){
 }
 
 var getLocation = function(id){
-	var returnData;
-	Client.find({"id": id}, {"coordinates": 1 , "_id": 0}, function(err, data){
-		if (err){
-			console.log("getLocation failed with error:");
-			console.log(err);
-		} else {
-			console.log("\n"+ "Location of " + id + " is:");
-			console.log(data);
-			returnData = data;
-		}
+	return new Promise(function(resolve,reject){
+		Client.find({"id": id}, {"coordinates": 1 , "_id": 0}, function(err, data){
+			if (err){
+				console.log("getLocation failed with error:");
+				console.log(err);
+				reject(err);
+			} else {
+				console.log("\n"+ "Location of " + id + " is:");
+				console.log(data);
+				resolve(data);			}
+		});
 	});
-	return returnData;
 }
 
 var updateLocation = function(id, coordinates){
