@@ -1,5 +1,5 @@
 let express = require('express');
-//let model = require('./Database/db.js');
+let model = require('./Database/db.js');
 let Hashids = require('hashids');
 let geolib = require('geolib');
 
@@ -52,7 +52,13 @@ router.route('/getNearFriends')
     .get((req,res) => {
         let userId = req.userId;
         let radius = req.radius;
-        let friends = model.findClientById(userId).friends;
+        var nearFriendsIds = getNearFriends(userId, radius);
+        res.send(nearFriendsIds);
+});
+
+//get free friends near me
+function getNearFriends(id, radius){
+    let friends = model.findClientById(userId).friends;
         let userLocation = model.getLocation(userId);
         // let userLocation = {latitude: 51.5103, longitude: 7.49347};
         // let friendLocation = {latitude: 23.5103, longitude: 42.49347};
@@ -66,7 +72,7 @@ router.route('/getNearFriends')
                 nearFriendsIds.push(i);
             }
         }
-        res.send(nearFriendsIds);
-});
+        return nearFriendsIds;
+}
 
 module.exports = router;
