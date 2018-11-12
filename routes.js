@@ -27,11 +27,24 @@ router.route('/idHash')
     }));
 });
 
-//add user
+// //add user
+// router.route('/addUser')
+//     .post((req,res) => {
+//         let user = req.user;
+//         console.log("db");
+//         var promise = model.addNewClient(user);
+//         promise.then(function() {
+//             res.send("user added");
+//         }, function(err) {
+//             res.send(err);
+//             console.log("ERROR adding user")
+//         });
+// });
+
 router.route('/addUser')
     .post((req,res) => {
         let user = req.user;
-        console.log("db");
+        console.log(user);
         model.addNewClient(user);
         res.send("user added");
 });
@@ -47,7 +60,6 @@ router.route('/updateLocation')
 });
 
 //GET friends in certain radius id
-
 router.route('/getNearFriends')
     .get((req,res) => {
         let userId = req.userId;
