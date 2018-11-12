@@ -44,7 +44,7 @@ router.route('/idHash')
 router.route('/addUser')
     .post((req,res) => {
         console.log(req.body);
-        let user = JSON.parse(req.body);
+        let user = req.body;
         console.log(user);
         model.addNewClient(user);
         res.send("user added");
