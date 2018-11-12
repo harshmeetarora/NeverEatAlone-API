@@ -27,39 +27,72 @@ router.route('/idHash')
     }));
 });
 
-//add user
+// //add user
+// router.route('/addUser')
+//     .post((req,res) => {
+//         let user = req.user;
+//         console.log("db");
+//         var promise = model.addNewClient(user);
+//         promise.then(function() {
+//             res.send("user added");
+//         }, function(err) {
+//             res.send(err);
+//             console.log("ERROR adding user")
+//         });
+// });
+
 router.route('/addUser')
     .post((req,res) => {
-        let user = req.user;
-        console.log("db");
-        model.addNewClient(testClientHarsh);
+        //console.log(req.body);
+        let user = req.body;
+        //console.log(user);
+        model.addNewClient(user);
+        //let friend = model.findClientById(user.id);
+        //console.log(friend);
         res.send("user added");
+
+        
 });
 
 //PUT update user location
 router.route('/updateLocation')
     .put((req,res) => {
-        let id = req.id;
-        let location = req.location;
-        console.log("location");
+        let id = req.body.id;
+        let location = req.body.location;
+        console.log(location);
         model.updateLocation(id, location);
         res.send({'location' : location});
 });
 
-//GET friends in certain radius id
+// router.route('/updateLocation')
+//     .put((req,res) => {
+//         let id = req.body.id;
+//         let location = req.body.location;
+//         console.log(location);
+        
+//         var promise = model.updateLocation(id, location);
+//         promise.then(function() {
+//             res.send("user added");
+//         }, function(err) {
+//             res.send(err)
+//         });
+//         res.send({'location' : location});
+// });
 
+
+//GET friends in certain radius id
 router.route('/getNearFriends')
     .get((req,res) => {
-        let userId = req.userId;
-        let radius = req.radius;
-        var nearFriendsIds = getNearFriends(userId, radius);
+        let id = req.body.id;
+        let radius = req.body.radius;
+        var nearFriendsIds = getNearFriends(id, radius);
         res.send(nearFriendsIds);
 });
 
 //get free friends near me
 function getNearFriends(id, radius){
-    let friends = model.findClientById(userId).friends;
-        let userLocation = model.getLocation(userId);
+    let friends = model.findClientById(id).friends;
+        let userLocation = model.getLocation(id);
         // let userLocation = {latitude: 51.5103, longitude: 7.49347};
         // let friendLocation = {latitude: 23.5103, longitude: 42.49347};
         //let radius = 4311099;
@@ -74,5 +107,6 @@ function getNearFriends(id, radius){
         }
         return nearFriendsIds;
 }
+
 
 module.exports = router;
