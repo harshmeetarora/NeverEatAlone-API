@@ -43,21 +43,37 @@ router.route('/idHash')
 
 router.route('/addUser')
     .post((req,res) => {
-        let user = req.user;
+        let user = req.body;
         console.log(user);
         model.addNewClient(user);
         res.send("user added");
 });
 
 //PUT update user location
+// router.route('/updateLocation')
+//     .put((req,res) => {
+//         let id = req.id;
+//         let location = req.location;
+//         console.log("location");
+//         model.updateLocation(id, location);
+//         res.send({'location' : location});
+// });
+
 router.route('/updateLocation')
     .put((req,res) => {
         let id = req.id;
         let location = req.location;
         console.log("location");
-        model.updateLocation(id, location);
+        
+        var promise = model.updateLocation(id, location);
+        promise.then(function() {
+            res.send("user added");
+        }, function(err) {
+            res.send(err)
+        });
         res.send({'location' : location});
 });
+
 
 //GET friends in certain radius id
 router.route('/getNearFriends')
