@@ -51,36 +51,36 @@ router.route('/addUser')
 });
 
 //PUT update user location
-// router.route('/updateLocation')
-//     .put((req,res) => {
-//         let id = req.id;
-//         let location = req.location;
-//         console.log("location");
-//         model.updateLocation(id, location);
-//         res.send({'location' : location});
-// });
-
 router.route('/updateLocation')
     .put((req,res) => {
-        let id = req.id;
-        let location = req.location;
-        console.log("location");
-        
-        var promise = model.updateLocation(id, location);
-        promise.then(function() {
-            res.send("user added");
-        }, function(err) {
-            res.send(err)
-        });
+        let id = req.body.id;
+        let location = req.body.location;
+        console.log(location);
+        model.updateLocation(id, location);
         res.send({'location' : location});
 });
+
+// router.route('/updateLocation')
+//     .put((req,res) => {
+//         let id = req.body.id;
+//         let location = req.body.location;
+//         console.log(location);
+        
+//         var promise = model.updateLocation(id, location);
+//         promise.then(function() {
+//             res.send("user added");
+//         }, function(err) {
+//             res.send(err)
+//         });
+//         res.send({'location' : location});
+// });
 
 
 //GET friends in certain radius id
 router.route('/getNearFriends')
     .get((req,res) => {
-        let userId = req.userId;
-        let radius = req.radius;
+        let userId = req.body.id;
+        let radius = req.body.radius;
         var nearFriendsIds = getNearFriends(userId, radius);
         res.send(nearFriendsIds);
 });
