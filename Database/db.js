@@ -9,7 +9,7 @@ db.once('open', function() {
 });
 
 var calendarSchema = new mongoose.Schema({
-	userId: Number,
+	id: Number,
 	events: [{
         date: String,
         events: [{
@@ -23,33 +23,38 @@ var calendarSchema = new mongoose.Schema({
 var Calendar = mongoose.model("Calendar", calendarSchema);
 
 var updateCalender = function(id, events){
-	Calendar.update({"userId": id}, { $set: {"events": events}},
-		function(err, data){
-			if (err) {
-				console.log("saving calendar failled");
-				console.log(data);
-			} else {
-				console.log("\n"+ "saved following item to calendar");
-				console.log(data);
-			}
+	return Calendar.update(
+		{"id": id},
+		{ $set: 
+			{"events": events}
 		}
 	);
 }
 
 var getCalender = function(id){
-	return new Promise(function(resolve,reject){
-		Calendar.find({"userId": id}, function(err, data){
-			if (err) {
-				console.log("getCalender failled");
-				console.log(data);
-				reject(err);
-			} else {
-				console.log("\n"+ "retrieved following calendar from db");
-				console.log(data);
-				resolve(data);
+	return Calendar.find(
+		{"id": id}
+	);
+}
+
+var checkCalendar = function(data, date, timeStart, timeEnd){
+	return Calendar.find(
+		{
+			id: {$in: data},
+			events: {
+				$elemMatch: {
+					date: date,
+					events: {
+						$elemMatch: {
+							startTime: {$gt: timeEnd},
+							endTime: {$lt: timeStart}
+						}
+					}
+				}
 			}
-		});
-	});
+		},
+		{id: 1, _id: 0}
+	);
 }
 
 var clientSchema = new mongoose.Schema({
@@ -62,139 +67,44 @@ var clientSchema = new mongoose.Schema({
  	},
  	friends: [{id: Number}]
 });
-
 var Client = mongoose.model("Client", clientSchema);
 
 var addNewClient = function(clientInfo){
-	return new Promise(function(resolve,reject){
-		Client.create(clientInfo, function(err, data){
-			if (err) {
-				console.log("saving client failled");
-				console.log(data);
-				reject(err);
-			} else {
-				console.log("\n"+ "saved following item to db");
-				console.log(data);
-				resolve(data);
-			}
-		});
-	});
+	return Client.create(clientInfo);
 }
 
 var findClient = function(clientInfo){
-	return new Promise(function(resolve,reject){
-		Client.find(clientInfo, function(err, data){
-			if (err){
-				console.log("find failed with error:");
-				console.log(err);
-				reject(err);
-				return;
-			} else {
-				console.log("\n"+ "find returned:");
-				console.log(data);
-				resolve(data);
-			}
-		});
-	});
+	return Client.find(clientInfo);
 }
 
 var findClientById = function(id){
-	return new Promise(function(resolve,reject){
-		Client.find({"id": id}, function(err, data){
-			if (err){
-				console.log("find failed with error:");
-				console.log(err);
-				reject(err);
-			} else {
-				console.log("\n"+ "findClientById with id:" + id + " returned:");
-				console.log(data);
-				resolve(data);			}
-		});
-	});
+	return Client.find({"id": id});
 }
 
 
 var clearDatabase = function(){
-	Client.deleteMany({},
-    function(err, data) {
-    	if (err){
-			console.log("getLocation failed with error:");
-			console.log(err);
-		} else {
-        	console.log("Database collection 'clients' has been cleared of all items");
-        }
-    });
+	return Client.deleteMany({});
 }
 
 var deleteClient = function(clientInfo){
-	Client.deleteOne(clientInfo,
-    function(err, data) {
-    	if (err){
-			console.log("deleteClient failed with error:");
-			console.log(err);
-		} else {
-        	console.log("\n" + "Database collection 'clients' has been cleared of ");
-        	console.log(clientInfo);
-        }
-    });
+	return Client.deleteOne(clientInfo);
 }
 
 var deleteClientById = function(id){
-	Client.deleteOne({"id": id}, function(err, data) {
-		if (err){
-			console.log("deleteClientById failed with error:");
-			console.log(err);
-		} else {
-        console.log("\n" + "Database collection 'clients' has been cleared of ");
-        console.log(data);
-    }
-    });
+	return Client.deleteOne({"id": id});
 }
 
 var getLocation = function(id){
-	return new Promise(function(resolve,reject){
-		Client.find({"id": id}, {"coordinates": 1 , "_id": 0}, function(err, data){
-			if (err){
-				console.log("getLocation failed with error:");
-				console.log(err);
-				reject(err);
-			} else {
-				console.log("\n"+ "Location of " + id + " is:");
-				console.log(data);
-				resolve(data);			}
-		});
-	});
+	return Client.find({"id": id}, {"coordinates": 1 , "_id": 0});
 }
 
 var updateLocation = function(id, coordinates){
-	Client.update({"id": id}, { $set: {"coordinates": coordinates}}, 
-		function(err, data){
-			if (err){
-				console.log("updateLocation failed with error:");
-				console.log(err);
-			} else {
-				console.log("\n"+ "Location of " + id + " updated to:");
-				console.log(data);
-		}
-	});
+	Client.update({"id": id}, { $set: {"coordinates": coordinates}});
 }
 
-
-// addNewClient(clientInfo);
-// findClient(clientInfo);
-// findClientById(id);
-clearDatabase();
-// deleteClient(clientInfo);
-// deleteClientById(id);
-
-// getLocation(id);
-// updateLocation(id, coordinates);
-// async function asycCall(){
-// 	var a = await getLocation("2");
-// 	deleteClientById("2");
-// }
-
-// asycCall();
+var getFriends = function(id){
+	return Client.find({"id": id}, {"friends": 1, "_id": 0});
+}
 
 module.exports = {
   addNewClient : addNewClient,
@@ -204,29 +114,8 @@ module.exports = {
   deleteClient : deleteClient,
   deleteClientById : deleteClientById,
   getLocation : getLocation,
-  updateLocation : updateLocation 
+  updateLocation : updateLocation, 
+  updateCalender : updateCalender,
+  getCalender : getCalender,
+  checkCalendar : checkCalendar
 };
-
-// addNewClient({
-// 	id : "3",
-// 	name: "Matt",
-//  	email: "someEmail2",
-//  	coordinates: {
-//  		lat: 3124,
-//  		long: 9813,
-//  	}
-// });
-
-
-
-// findClientById("3");
-
-// findClientById("2");
-// deleteClientById("3");
-// getLocation("2");
-
-// updateLocation("2", {lat: 3123, long: 31921});
-// getLocation("2");
-
-
-
