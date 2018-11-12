@@ -14,9 +14,9 @@ var port = process.env.PORT || 3000;
 
 const app = express();
 app.use(express.json());
-app.use(bodyParser.urlencoded({
-	extended: true
-}))
+// app.use(bodyParser.urlencoded({
+// 	extended: true
+// }))
 
 
 // app.get('/test', (req,res) => {
