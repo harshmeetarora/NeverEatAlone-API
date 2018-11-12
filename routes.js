@@ -43,12 +43,12 @@ router.route('/idHash')
 
 router.route('/addUser')
     .post((req,res) => {
-        console.log(req.body);
+        //console.log(req.body);
         let user = req.body;
-        console.log(user);
+        //console.log(user);
         model.addNewClient(user);
-        let friend = model.findClientById(user.id);
-        console.log(friend);
+        //let friend = model.findClientById(user.id);
+        //console.log(friend);
         res.send("user added");
 
         
