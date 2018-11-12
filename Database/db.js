@@ -22,6 +22,8 @@ var Client = mongoose.model("Client", clientSchema);
 
 
 var addNewClient = function(clientInfo){
+	console.log("laurenz's shitty code")
+	console.log(clientInfo);
 	Client.create(clientInfo, function(err, data){
 		if (err) {
 			console.log("saving client failled");
