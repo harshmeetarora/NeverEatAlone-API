@@ -100,6 +100,7 @@ router.route('/test')
 //calendarPut
 router.route('/addCalendar')
     .post((req,res) => {
+        console.log("add new client route called");
         var id = req.body.id; // TODO adjust with matt
         var events = req.body.calendar;
         var calendarPromise = model.updateCalendar(id, events); 
@@ -154,13 +155,16 @@ router.route('/getDistance')
 
         location1Promise.then(
             function (content){
+                console.log("got location 1");
                 var location1 = content;
                 var location2Promise = model.getLocation(id2);
 
                 location2Promise.then(
                     function (content2){
+                        console.log("got location 2");
                         var location2 = content2;
                         var distance = geolib.getDistance(location1,location2);
+                        console.log("actual distance : " + distance);
                         res.send(distance);
                     },
                     function (err2){
