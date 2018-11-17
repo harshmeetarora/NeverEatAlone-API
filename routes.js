@@ -132,9 +132,9 @@ router.route('/getNotAvailableFriends')
         var id = 1;
         var d = new Date();
         var date = d.toLocaleDateString();
-        var hours = d.getHours(); // TODO seems to return wrong number?
-        var minutes = d.getMinutes() / 60;
-        var time = hours + minutes; //TODO get rid of magic number
+        var hours = d.getUTCHours() - 8; //UTC - adjustment for westcoast canada
+        var minutes = d.getMinutes() / 60; // 60 minutes in an hour 
+        var time = hours + minutes; // time as a float 0-24
         console.log(hours);
 
         var friendsPromise = model.getFriends(id);
