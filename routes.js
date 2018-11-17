@@ -80,18 +80,6 @@ var calendarObject3 =  [
         date: "11/16/2018",
         events: [
             {
-                key: 1,
-                title: "something",
-                startTime: 19.5,
-                endTime: 20.5,
-            },
-            {
-                key: 2,
-                title: "something",
-                startTime: 21,
-                endTime: 22,
-            },
-            {
                 key: 3,
                 title: "something",
                 startTime: 18,
@@ -215,8 +203,8 @@ router.route('/addUser')
     .get((req,res) => {
         // TODO deal with user already exists case
         // let user = req.body;
-        let user = clientObject1;
-        let calendar = calendarObject2;
+        let user = clientObject2;
+        let calendar = calendarObject3;
         let id = user.id;
 
         var clientPromise = model.addNewClient(user);
@@ -260,7 +248,7 @@ router.route('/updateLocation')
         promise.then(function(content) {
             res.send("location updated: " + content);
         }, function(err) {
-            res.send(err)
+            res.send("updating location yielded error: " + err)
         });
 });
 

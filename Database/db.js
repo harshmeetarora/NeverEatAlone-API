@@ -101,7 +101,7 @@ var getLocation = function(id){
 }
 
 var updateLocation = function(id, coordinates){ 
-	Client.update({"id": id}, { $set: {"coordinates": coordinates}});
+	return Client.update({"id": id}, { $set: {"coordinates": coordinates}});
 }
 
 var getFriends = function(id){
