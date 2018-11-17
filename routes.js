@@ -136,7 +136,7 @@ router.route('/getNotAvailableFriends')
         var id = 1;
         var d = new Date();
         var date = d.toLocaleDateString();
-        var hours = d.getHours();
+        var hours = d.getHours(); // TODO seems to return wrong number?
         var minutes = d.getMinutes() / 60;
         var time = hours + minutes; //TODO get rid of magic number
         console.log(hours);
@@ -157,7 +157,11 @@ router.route('/getNotAvailableFriends')
                     function(content2){
                         console.log("unavailable friends: ");
                         console.log(content2);
-                        var returnJSON = {friends:friends, unavailableFriends:content2};
+                        var unavailableFriends = [];
+                        content2.forEach(function(item, index){
+                            unavailableFriends[index] = item.id;
+                        });
+                        var returnJSON = {friends:friends, unavailableFriends:unavailableFriends};
                         res.send(returnJSON);
                     },
                     function (err2){
