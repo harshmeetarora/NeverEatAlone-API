@@ -98,7 +98,7 @@ router.route('/test')
 });
 
 //calendarPut
-router.route('/addCalendar')
+router.route('/updateCalendar')
     .post((req,res) => {
         console.log("add new client route called");
         var id = req.body.id; // TODO adjust with matt
@@ -204,7 +204,63 @@ router.route('/idHash')
 //         });
 // });
 
-router.route('/addUser')
+router.route('/addUser1')
+    // .post((req,res) => {
+    .get((req,res) => {
+        // TODO deal with user already exists case
+        // let user = req.body;
+        console.log("add new client route called");
+        let user = clientObject1;
+        let calendar = calendarObject2;
+        let id = user.id;
+
+        var clientPromise = model.addNewClient(user);
+        clientPromise.then(
+            function(content){
+                var calendarPromise = model.addCalendar(id, calendar);
+                calendarPromise.then(
+                    function(content2){
+                        res.send("success user + calendar added: " + content + content2);
+                    },
+                    function(err2){
+                        res.send("error occured: " + err2);
+                    }        
+                );
+            },
+            function(err){
+                res.send("error occured: " + err);
+            }
+        );
+});
+router.route('/addUser2')
+    // .post((req,res) => {
+    .get((req,res) => {
+        // TODO deal with user already exists case
+        // let user = req.body;
+        console.log("add new client route called");
+        let user = clientObject2;
+        let calendar = calendarObject3;
+        let id = user.id;
+
+        var clientPromise = model.addNewClient(user);
+        clientPromise.then(
+            function(content){
+                var calendarPromise = model.addCalendar(id, calendar);
+                calendarPromise.then(
+                    function(content2){
+                        res.send("success user + calendar added: " + content + content2);
+                    },
+                    function(err2){
+                        res.send("error occured: " + err2);
+                    }        
+                );
+            },
+            function(err){
+                res.send("error occured: " + err);
+            }
+        );
+});
+router.route('/addUser3')
     // .post((req,res) => {
     .get((req,res) => {
         // TODO deal with user already exists case
