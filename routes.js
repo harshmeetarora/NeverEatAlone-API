@@ -23,39 +23,9 @@ var clientObject1 = {
  	friends: [{id: 2}, {id: 3}]
 }
 var newLocation1 = {
-    coordinates: {
-        lat: 49.2606,
-        long: 123.2460,
-    }
+    lat: 49.2606,
+    long: 123.2460
 }
-var calendarObject1 = {
-    id: 1,
-    events: [
-        {
-            date: "11/16/2018",
-            events: [
-                {
-                    key: 1,
-                    title: "something",
-                    startTime: 19.5,
-                    endTime: 20.5,
-                },
-                {
-                    key: 2,
-                    title: "something",
-                    startTime: 21,
-                    endTime: 22,
-                },
-                {
-                    key: 3,
-                    title: "something",
-                    startTime: 18,
-                    endTime: 19,
-                }
-            ]
-        }
-    ]
-};
 
 var clientObject2 = {
 	id : 2,
@@ -68,35 +38,6 @@ var clientObject2 = {
  	friends: [{id: 1}]
 }
 
-var calendarObject2 = {
-    id: 2,
-    events: [
-        {
-            date: "11/16/2018",
-            events: [
-                {
-                    key: 1,
-                    title: "something",
-                    startTime: 19.5,
-                    endTime: 20.5,
-                },
-                {
-                    key: 2,
-                    title: "something",
-                    startTime: 21,
-                    endTime: 22,
-                },
-                {
-                    key: 3,
-                    title: "something",
-                    startTime: 18,
-                    endTime: 19,
-                }
-            ]
-        }
-    ]
-};
-
 var clientObject3 = {
 	id : 3,
 	name: "Matt",
@@ -108,34 +49,57 @@ var clientObject3 = {
  	friends: [{id: 1}]
 }
 
-var calendarObject3 = {
-    id: 3,
-    events: [
-        {
-            date: "11/16/2018",
-            events: [
-                {
-                    key: 1,
-                    title: "something",
-                    startTime: 19.5,
-                    endTime: 20.5,
-                },
-                {
-                    key: 2,
-                    title: "something",
-                    startTime: 21,
-                    endTime: 22,
-                },
-                {
-                    key: 3,
-                    title: "something",
-                    startTime: 18,
-                    endTime: 19,
-                }
-            ]
-        }
-    ]
-};
+var calendarObject2 = [
+    {
+        date: "11/16/2018",
+        events: [
+            {
+                key: 1,
+                title: "something",
+                startTime: 19.5,
+                endTime: 20.5,
+            },
+            {
+                key: 2,
+                title: "something",
+                startTime: 21,
+                endTime: 22,
+            },
+            {
+                key: 3,
+                title: "something",
+                startTime: 18,
+                endTime: 19,
+            }
+        ]
+    }
+];
+
+var calendarObject3 =  [
+    {
+        date: "11/16/2018",
+        events: [
+            {
+                key: 1,
+                title: "something",
+                startTime: 19.5,
+                endTime: 20.5,
+            },
+            {
+                key: 2,
+                title: "something",
+                startTime: 21,
+                endTime: 22,
+            },
+            {
+                key: 3,
+                title: "something",
+                startTime: 18,
+                endTime: 19,
+            }
+        ]
+    }
+];
 
 
 //test 
@@ -251,13 +215,22 @@ router.route('/addUser')
     .get((req,res) => {
         // TODO deal with user already exists case
         // let user = req.body;
-        let user = clientObject3;
-        console.log(user);
-        var clientPromise = model.addNewClient(user);
+        let user = clientObject1;
+        let calendar = calendarObject2;
+        let id = user.id;
 
+        var clientPromise = model.addNewClient(user);
         clientPromise.then(
             function(content){
-                res.send("user added:" + content);
+                var calendarPromise = model.addCalendar(id, calendar);
+                calendarPromise.then(
+                    function(content2){
+                        res.send("success user + calendar added: " + content + content2);
+                    },
+                    function(err2){
+                        res.send("error occured: " + err2);
+                    }        
+                );
             },
             function(err){
                 res.send("error occured: " + err);
