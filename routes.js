@@ -51,13 +51,13 @@ var clientObject3 = {
 
 var calendarObject2 = [
     {
-        date: "11/16/2018",
+        date: "11/17/2018",
         events: [
             {
                 key: 1,
                 title: "something",
-                startTime: 19.5,
-                endTime: 20.5,
+                startTime: 12.5,
+                endTime: 17,
             },
             {
                 key: 2,
@@ -102,8 +102,10 @@ router.route('/test')
 router.route('/updateCalendar')
     .post((req,res) => {
         console.log("add new client route called");
-        var id = req.body.id; // TODO adjust with matt
-        var events = req.body.calendar;
+        // var id = req.body.id; // TODO adjust with matt
+        // var events = req.body.calendar;
+        var id = 3;
+        var events = calendarObject2;
         var calendarPromise = model.updateCalendar(id, events); 
         calendarPromise.then(
             function(){
@@ -119,7 +121,8 @@ router.route('/updateCalendar')
 //TODO test this
 router.route('/getNotAvailableFriends')
     .get((req,res) => {
-        var id = req.body.id;
+        // var id = req.body.id;
+        var id = 1;
         var d = new Date();
         var date = d.toLocaleDateString();
         var time = d.getHours();
