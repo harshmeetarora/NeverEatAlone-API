@@ -64,15 +64,12 @@ router.route('/getAvailableFriends')
                 res.send(err);
             }
         );
-
-        res.send("Hello");
 });
 
 router.route('/getDistance')
     .get((req,res) => {
         var id1 = req.body.id1;
         var id2 = req.body.id2;
-
         var location1Promise = model.getLocation(id);
 
         location1Promise.then(
@@ -95,8 +92,6 @@ router.route('/getDistance')
                 res.send(err);
             }
         );
-
-
 });
 
 

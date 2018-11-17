@@ -22,18 +22,12 @@ var calendarSchema = new mongoose.Schema({
 });
 var Calendar = mongoose.model("Calendar", calendarSchema);
 
-var updateCalendar = function(id, events){
+var updateCalendar = function(id, events){ // TODO make sure this is called when new client is created
 	return Calendar.update(
 		{"id": id},
 		{ $set: 
 			{"events": events}
 		}
-	);
-}
-
-var getCalendar = function(id){
-	return Calendar.find(
-		{"id": id}
 	);
 }
 
@@ -56,6 +50,7 @@ var checkCalendar = function(friends, date, timeStart, timeEnd){
 		{id: 1, _id: 0}
 	);
 }
+/////////////////////////////////////////////////////////////////////////////
 
 var clientSchema = new mongoose.Schema({
 	id : String,
@@ -117,6 +112,5 @@ module.exports = {
   updateLocation : updateLocation, 
   getFriends : getFriends,
   updateCalender : updateCalender,
-  getCalender : getCalender,
   checkCalendar : checkCalendar
 };
