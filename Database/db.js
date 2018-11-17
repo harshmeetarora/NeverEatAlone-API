@@ -40,6 +40,14 @@ var updateCalendar = function(id, events){ // TODO make sure this is called when
 }
 
 var checkCalendar = function(friends, date, timeStart, timeEnd){
+
+	console.log("checkClaendar function: ");
+	console.log(typeof(friends.friends));
+	console.log(friends.friends);
+	console.log(typeof(date));
+	console.log(date);
+	console.log(typeof(timeStart));
+	console.log(timeStart);
 	return Calendar.find(
 		{
 			id: {$in: friends.friends},
