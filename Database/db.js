@@ -22,7 +22,7 @@ var calendarSchema = new mongoose.Schema({
 });
 var Calendar = mongoose.model("Calendar", calendarSchema);
 
-var updateCalender = function(id, events){
+var updateCalendar = function(id, events){
 	return Calendar.update(
 		{"id": id},
 		{ $set: 
@@ -31,7 +31,7 @@ var updateCalender = function(id, events){
 	);
 }
 
-var getCalender = function(id){
+var getCalendar = function(id){
 	return Calendar.find(
 		{"id": id}
 	);

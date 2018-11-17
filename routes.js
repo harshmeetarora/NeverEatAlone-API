@@ -7,6 +7,7 @@ var hashids = new Hashids();
 
 let router  = express.Router();
 
+// 
 
 
 //test 
@@ -15,6 +16,87 @@ router.route('/test')
         console.log("check");
         res.send("Hello");
 });
+
+//calendarPut
+router.route('/addCalendar')
+    .post((req,res) => {
+        var id = req.body.id; // TODO adjust with matt
+        var events = req.body.calendar;
+        var calendarPromise = model.updateCalendar(id, events); 
+        calendarPromise.then(
+            function(){
+                res.send(1);
+            },
+            function(){
+                res.send(0);
+            }
+        );
+});
+
+// friend availability get
+router.route('/getAvailableFriends')
+    .get((req,res) => {
+        var id = req.body.id;
+        var d = new Date();
+        var date = d.toLocaleDateString();
+        var time = d.getHours();
+        var time = time + (d.getMinutes/60); //TODO get rid of magic number
+
+        var friendsPromise = model.getFriends(id);
+
+        friendsPromise.then(
+            function(contents){
+                var friends = contents;
+                var calendarPromise = model.checkCalendar(friends, date, time, (time+0.5)); //TODO get rid of magic number
+                calendarPromise.then(
+                    function(contents2){
+                        var returnJSON = {friends:friends, unavailableFriends:contents2};
+                        res.send(returnJSON);
+                    },
+                    function (err2){
+                        res.send(err2);
+                    }
+                );
+            },
+            function (err){
+                res.send(err);
+            }
+        );
+
+        res.send("Hello");
+});
+
+router.route('/getDistance')
+    .get((req,res) => {
+        var id1 = req.body.id1;
+        var id2 = req.body.id2;
+
+        var location1Promise = model.getLocation(id);
+
+        location1Promise.then(
+            function (content){
+                location1 = content;
+                location2Promise = model.getLocation(id);
+
+                location2Promise.then(
+                    function (content2){
+                        var location2 = content2;
+                        var distance = geolib.getDistance(location1,location2);
+                        res.send(distance);
+                    },
+                    function (err2){
+                        res.send(err2);
+                    }
+                );
+            },
+            function (err){
+                res.send(err);
+            }
+        );
+
+
+});
+
 
 //hash id
 router.route('/idHash')
