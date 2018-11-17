@@ -100,7 +100,8 @@ router.route('/test')
 //calendarPut
 // TODO test this
 router.route('/updateCalendar')
-    .post((req,res) => {
+    // .post((req,res) => {
+    .get((req,res) => {
         console.log("add new client route called");
         // var id = req.body.id; // TODO adjust with matt
         // var events = req.body.calendar;
