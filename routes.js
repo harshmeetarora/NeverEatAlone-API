@@ -146,7 +146,7 @@ router.route('/getNotAvailableFriends')
             function(content){
                 console.log("get freidns parsing: ");
                 console.log(content);
-                var obj = JSON.parse(content);
+                var obj = JSON.parse(content[0]);
                 var friends = [];
                 obj.friends.forEach(function(item, index){
                     console.log(item.id);
