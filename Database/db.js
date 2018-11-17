@@ -102,8 +102,8 @@ var deleteClientById = function(id){
 	return Client.deleteOne({"id": id});
 }
 
-var getLocation = function(id){
-	return Client.find({"id": id}, {"coordinates": 1 , "_id": 0});
+var getLocations = function(friends){
+	return Client.find({id: {$in: friends}}, {"id": 1, "coordinates": 1, "_id": 0});
 }
 
 var updateLocation = function(id, coordinates){ 
@@ -121,7 +121,7 @@ module.exports = {
   clearDatabase :  clearDatabase,
   deleteClient : deleteClient, 
   deleteClientById : deleteClientById,
-  getLocation : getLocation, //used /getDistance
+  getLocations : getLocations, //used /getDistance
   updateLocation : updateLocation,  //used --> works
   getFriends : getFriends, // used /getNotAvailableFriends
   addCalendar : addCalendar, // used --> works

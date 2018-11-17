@@ -128,8 +128,7 @@ router.route('/updateCalendar')
         );
 });
 
-// friend availability get
-//TODO test this
+// friend availability get --> works
 router.route('/getNotAvailableFriends')
     .get((req,res) => {
         // var id = req.body.id;
@@ -140,8 +139,6 @@ router.route('/getNotAvailableFriends')
         var minutes = d.getMinutes() / 60;
         var time = hours + minutes; //TODO get rid of magic number
         console.log(hours);
-        console.log(minutes);
-        console.log(time);
 
         var friendsPromise = model.getFriends(id);
 
@@ -180,26 +177,39 @@ router.route('/getNotAvailableFriends')
 //TODO test this
 router.route('/getDistance')
     .get((req,res) => {
-        // var id1 = req.body.id1;
+        // var id = req.body.id1;
         // var id2 = req.body.id2;
-        var id1 = 1;
-        var id2 = 2;
-        var location1Promise = model.getLocation(id1);
+        var id = 1;
+        var friendsPromise = model.getFriends(id);
 
-        location1Promise.then(
+        friendsPromise.then(
             function (content){
-                console.log("got location 1");
-                var location1 = content;
-                var location2Promise = model.getLocation(id2);
-
-                location2Promise.then(
+                var friends = [];
+                content[0].friends.forEach(function(item, index){
+                    friends[index] = item.id;
+                });
+                friends.push(id);
+                var locationPromise = model.getLocations(friends);
+                locationPromise.then(
                     function (content2){
-                        console.log("got location 2");
-                        var location2 = content2;
-                        var distance = geolib.getDistance(location1,location2);
-                        //TODO the location jsons need to be turned from {long: lat} to {longitude, latitude}
-                        console.log("actual distance : " + distance);
-                        res.send(distance);
+                        console.log("got locations");
+                        for(var i = 0; i < content2.length; i++){
+                            if (content2[i].id == id)
+                                break;
+                        }
+                        userLocation = content2[i].coordinates;
+
+                        var distances = [];
+                        for(var i = 0; i < content2.length; i++){
+                            var distance = geolib.getDistance(
+                                    {longitude: userLocation.long, latitude: userLocation.lat},
+                                    {longitude: content2[i].coordinates.long, latitude: content2[i].coordinates.lat}
+                                );
+                            distances[i] = {id: content2[i].id, distance: distance};
+                            console.log(distances[i]);
+                        }
+                        console.log("actual distances : " + distances);
+                        res.send(distances);
                     },
                     function (err2){
                         res.send(err2);
@@ -211,6 +221,39 @@ router.route('/getDistance')
             }
         );
 });
+// router.route('/getDistance')
+//     .get((req,res) => {
+//         // var id1 = req.body.id1;
+//         // var id2 = req.body.id2;
+//         var id1 = 1;
+//         var id2 = 2;
+//         var location1Promise = model.getLocation(id1);
+
+//         location1Promise.then(
+//             function (content){
+//                 console.log("got location 1");
+//                 var location1 = content;
+//                 var location2Promise = model.getLocation(id2);
+
+//                 location2Promise.then(
+//                     function (content2){
+//                         console.log("got location 2");
+//                         var location2 = content2;
+//                         var distance = geolib.getDistance(location1,location2);
+//                         //TODO the location jsons need to be turned from {long: lat} to {longitude, latitude}
+//                         console.log("actual distance : " + distance);
+//                         res.send(distance);
+//                     },
+//                     function (err2){
+//                         res.send(err2);
+//                     }
+//                 );
+//             },
+//             function (err){
+//                 res.send(err);
+//             }
+//         );
+// });
 
 
 //hash id
