@@ -259,7 +259,7 @@ router.route('/addUser')
                 res.send("user added:" + content);
             },
             function(err){
-                res.send(err);
+                res.send("error occured: " + err);
             }
         );
 });
