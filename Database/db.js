@@ -23,6 +23,7 @@ var calendarSchema = new mongoose.Schema({
 var Calendar = mongoose.model("Calendar", calendarSchema);
 
 var addCalendar = function(id, calendar){
+	console.log("addCalendar called");
 	return Calendar.create({
 		id: id,
 		events: calendar
@@ -72,6 +73,7 @@ var clientSchema = new mongoose.Schema({
 var Client = mongoose.model("Client", clientSchema);
 
 var addNewClient = function(clientInfo){
+	console.log("addNewClient called");
 	return Client.create(clientInfo);
 }
 
@@ -109,14 +111,14 @@ var getFriends = function(id){
 }
 
 module.exports = {
-  addNewClient : addNewClient, //used 
+  addNewClient : addNewClient, //used --> executes twice?
   findClient : findClient, //not needed
   findClientById : findClientById, //will be used later
   clearDatabase :  clearDatabase,
   deleteClient : deleteClient, 
   deleteClientById : deleteClientById,
-  getLocation : getLocation, //used
-  updateLocation : updateLocation,  //used
+  getLocation : getLocation, //used 
+  updateLocation : updateLocation,  //used --> works
   getFriends : getFriends, // used
   addCalendar : addCalendar, // used
   updateCalendar : updateCalendar, // used

@@ -146,14 +146,16 @@ router.route('/getAvailableFriends')
 
 router.route('/getDistance')
     .get((req,res) => {
-        var id1 = req.body.id1;
-        var id2 = req.body.id2;
-        var location1Promise = model.getLocation(id);
+        // var id1 = req.body.id1;
+        // var id2 = req.body.id2;
+        var id1 = 1;
+        var id2 = 2;
+        var location1Promise = model.getLocation(id1);
 
         location1Promise.then(
             function (content){
                 var location1 = content;
-                var location2Promise = model.getLocation(id);
+                var location2Promise = model.getLocation(id2);
 
                 location2Promise.then(
                     function (content2){
@@ -203,7 +205,7 @@ router.route('/addUser')
     .get((req,res) => {
         // TODO deal with user already exists case
         // let user = req.body;
-        let user = clientObject2;
+        let user = clientObject3;
         let calendar = calendarObject3;
         let id = user.id;
 
