@@ -251,7 +251,7 @@ router.route('/addUser')
     .get((req,res) => {
         // TODO deal with user already exists case
         // let user = req.body;
-        let user = clientObject2;
+        let user = clientObject3;
         console.log(user);
         var clientPromise = model.addNewClient(user);
 
@@ -276,7 +276,8 @@ router.route('/addUser')
 // });
 
 router.route('/updateLocation')
-    .put((req,res) => {
+    // .put((req,res) => {
+    .get((req,res) => {
         // let id = req.body.id;
         // let location = req.body.location;
         let id = 1;
