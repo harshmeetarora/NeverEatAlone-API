@@ -144,8 +144,9 @@ router.route('/getNotAvailableFriends')
 
         friendsPromise.then(
             function(content){
-                var friends = JSON.parse(content).friends;
-                var calendarPromise = model.checkCalendar(friends, date, time, (time+0.5)); //TODO get rid of magic number
+                var friends = JSON.parse(content);
+
+                var calendarPromise = model.checkCalendar(friends.friends, date, time, (time+0.5)); //TODO get rid of magic number
                 calendarPromise.then(
                     function(content2){
                         console.log("unavailable friends: ");
