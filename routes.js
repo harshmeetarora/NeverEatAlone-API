@@ -1,6 +1,6 @@
 let express = require('express');
 let model = require('./Database/db.js');
-let yelp = require ('./yelp-api.js');
+let yelpAPI = require ('./yelp-api.js');
 let Hashids = require('hashids');
 let geolib = require('geolib');
 let yelp = require('yelp-fusion');
@@ -117,7 +117,7 @@ router.route('/yelp')
     var longitude = '-123.116226' ;
     var radius ='10';
     var term = "bar";
-        var getYelpRecommendation = yelp.getYelpRecommendation(latitude, longitude, radius, term);
+        var getYelpRecommendation = yelpAPI.getYelpRecommendation(latitude, longitude, radius, term);
         res.send(nearFriendsIds);
 });
 
