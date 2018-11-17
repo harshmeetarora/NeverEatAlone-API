@@ -72,6 +72,16 @@ var calendarObject2 = [
                 endTime: 19,
             }
         ]
+    },{
+        date: "11/16/2018",
+        events: [
+            {
+                key: 3,
+                title: "something",
+                startTime: 18,
+                endTime: 19,
+            }
+        ]
     }
 ];
 
@@ -109,11 +119,11 @@ router.route('/updateCalendar')
         var events = calendarObject2;
         var calendarPromise = model.updateCalendar(id, events); 
         calendarPromise.then(
-            function(){
-                res.send(1);
+            function(content){
+                res.send("sucess: " + content);
             },
-            function(){
-                res.send(0);
+            function(err){
+                res.send("failure: "+ err);
             }
         );
 });
@@ -132,12 +142,16 @@ router.route('/getNotAvailableFriends')
         var friendsPromise = model.getFriends(id);
 
         friendsPromise.then(
-            function(contents){
-                var friends = contents;
+            function(content){
+                console.log("friends: ");
+                console.log(content);
+                var friends = content;
                 var calendarPromise = model.checkCalendar(friends, date, time, (time+0.5)); //TODO get rid of magic number
                 calendarPromise.then(
-                    function(contents2){
-                        var returnJSON = {friends:friends, unavailableFriends:contents2};
+                    function(content2){
+                        console.log("unavailable friends: ");
+                        console.log(content2);
+                        var returnJSON = {friends:friends, unavailableFriends:content2};
                         res.send(returnJSON);
                     },
                     function (err2){
