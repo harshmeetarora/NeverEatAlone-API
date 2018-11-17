@@ -37,10 +37,10 @@ var getCalender = function(id){
 	);
 }
 
-var checkCalendar = function(data, date, timeStart, timeEnd){
+var checkCalendar = function(friends, date, timeStart, timeEnd){
 	return Calendar.find(
 		{
-			id: {$in: data},
+			id: {$in: friends},
 			events: {
 				$elemMatch: {
 					date: date,
@@ -115,6 +115,7 @@ module.exports = {
   deleteClientById : deleteClientById,
   getLocation : getLocation,
   updateLocation : updateLocation, 
+  getFriends : getFriends,
   updateCalender : updateCalender,
   getCalender : getCalender,
   checkCalendar : checkCalendar
