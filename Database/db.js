@@ -111,6 +111,6 @@ module.exports = {
   getLocation : getLocation,
   updateLocation : updateLocation, 
   getFriends : getFriends,
-  updateCalender : updateCalender,
+  updateCalendar : updateCalendar,
   checkCalendar : checkCalendar
 };

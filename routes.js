@@ -74,8 +74,8 @@ router.route('/getDistance')
 
         location1Promise.then(
             function (content){
-                location1 = content;
-                location2Promise = model.getLocation(id);
+                var location1 = content;
+                var location2Promise = model.getLocation(id);
 
                 location2Promise.then(
                     function (content2){
