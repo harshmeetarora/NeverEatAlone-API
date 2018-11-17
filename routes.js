@@ -209,6 +209,7 @@ router.route('/addUser')
     .get((req,res) => {
         // TODO deal with user already exists case
         // let user = req.body;
+        console.log("add new client route called");
         let user = clientObject3;
         let calendar = calendarObject3;
         let id = user.id;
