@@ -42,7 +42,7 @@ var updateCalendar = function(id, events){ // TODO make sure this is called when
 var checkCalendar = function(friends, date, timeStart, timeEnd){
 	return Calendar.find(
 		{
-			id: {$in: friends},
+			id: {$in: friends.friends},
 			events: {
 				$elemMatch: {
 					date: date,
@@ -121,6 +121,6 @@ module.exports = {
   updateLocation : updateLocation,  //used --> works
   getFriends : getFriends, // used /getNotAvailableFriends
   addCalendar : addCalendar, // used --> works
-  updateCalendar : updateCalendar, // used /updateCalendar
+  updateCalendar : updateCalendar, // used --> works
   checkCalendar : checkCalendar //used /getNotAvailableFriends
 };

@@ -112,7 +112,7 @@ router.route('/test')
 router.route('/updateCalendar')
     // .post((req,res) => {
     .get((req,res) => {
-        console.log("add new client route called");
+        console.log("update calendar route called");
         // var id = req.body.id; // TODO adjust with matt
         // var events = req.body.calendar;
         var id = 3;
@@ -145,6 +145,8 @@ router.route('/getNotAvailableFriends')
             function(content){
                 console.log("friends: ");
                 console.log(content);
+                console.log(typeof(date) + date);
+                console.log(typeof(time) + time);
                 var friends = content;
                 var calendarPromise = model.checkCalendar(friends, date, time, (time+0.5)); //TODO get rid of magic number
                 calendarPromise.then(
