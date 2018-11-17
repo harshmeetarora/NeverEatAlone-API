@@ -147,6 +147,9 @@ router.route('/getNotAvailableFriends')
         );
 });
 
+
+//getDistance --> (id) --> [{id:id, distance:distance}]
+//TODO test this
 router.route('/getDistance')
     .get((req,res) => {
         // var id1 = req.body.id1;
