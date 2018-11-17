@@ -148,12 +148,12 @@ router.route('/getNotAvailableFriends')
                 console.log(content[0]);
                 console.log(content[0].friends);
                 console.log(content[0].friends[0]);
-                var obj = JSON.parse(content[0]);
                 var friends = [];
-                obj.friends.forEach(function(item, index){
+                content[0].friends.forEach(function(item, index){
                     console.log(item.id);
                     friends[index] = item.id;
                 });
+                console.log(friends);
                 var calendarPromise = model.checkCalendar(friends, date, time, (time+0.5)); //TODO get rid of magic number
                 calendarPromise.then(
                     function(content2){
