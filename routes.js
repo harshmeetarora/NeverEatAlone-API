@@ -10,8 +10,6 @@ var hashids = new Hashids();
 let router  = express.Router();
 
 // test Objects
-
-
 var clientObject1 = {
 	id : 1,
 	name: "Laurenz",
@@ -107,13 +105,12 @@ router.route('/test')
         res.send("Hello");
 });
 
-//calendarPut
-// TODO test this
+//calendarPut --> WORKS
 router.route('/updateCalendar')
     // .post((req,res) => {
     .get((req,res) => {
         console.log("update calendar route called");
-        // var id = req.body.id; // TODO adjust with matt
+        // var id = req.body.id;
         // var events = req.body.calendar;
         var id = 3;
         var events = calendarObject2;
@@ -123,7 +120,7 @@ router.route('/updateCalendar')
                 res.send("sucess: " + content);
             },
             function(err){
-                res.send("failure: "+ err);
+                res.send("failure: " + err);
             }
         );
 });
@@ -174,11 +171,10 @@ router.route('/getNotAvailableFriends')
 
 
 //getDistance --> (id) --> [{id:id, distance:distance}]
-//TODO test this
+// tested --> works
 router.route('/getDistance')
     .get((req,res) => {
         // var id = req.body.id1;
-        // var id2 = req.body.id2;
         var id = 1;
         var friendsPromise = model.getFriends(id);
 
@@ -221,40 +217,6 @@ router.route('/getDistance')
             }
         );
 });
-// router.route('/getDistance')
-//     .get((req,res) => {
-//         // var id1 = req.body.id1;
-//         // var id2 = req.body.id2;
-//         var id1 = 1;
-//         var id2 = 2;
-//         var location1Promise = model.getLocation(id1);
-
-//         location1Promise.then(
-//             function (content){
-//                 console.log("got location 1");
-//                 var location1 = content;
-//                 var location2Promise = model.getLocation(id2);
-
-//                 location2Promise.then(
-//                     function (content2){
-//                         console.log("got location 2");
-//                         var location2 = content2;
-//                         var distance = geolib.getDistance(location1,location2);
-//                         //TODO the location jsons need to be turned from {long: lat} to {longitude, latitude}
-//                         console.log("actual distance : " + distance);
-//                         res.send(distance);
-//                     },
-//                     function (err2){
-//                         res.send(err2);
-//                     }
-//                 );
-//             },
-//             function (err){
-//                 res.send(err);
-//             }
-//         );
-// });
-
 
 //hash id
 router.route('/idHash')
@@ -267,19 +229,6 @@ router.route('/idHash')
     }));
 });
 
-// //add user
-// router.route('/addUser')
-//     .post((req,res) => {
-//         let user = req.user;
-//         console.log("db");
-//         var promise = model.addNewClient(user);
-//         promise.then(function() {
-//             res.send("user added");
-//         }, function(err) {
-//             res.send(err);
-//             console.log("ERROR adding user")
-//         });
-// });
 
 // tested --> works
 router.route('/addUser')
@@ -311,15 +260,6 @@ router.route('/addUser')
         );
 });
 
-//PUT update user location
-// router.route('/updateLocation')
-//     .put((req,res) => {
-//         let id = req.body.id;
-//         let location = req.body.location;
-//         console.log(location);
-//         model.updateLocation(id, location);
-//         res.send({'location' : location});
-// });
 
 // tested --> works
 router.route('/updateLocation')
@@ -337,35 +277,6 @@ router.route('/updateLocation')
             res.send("updating location yielded error: " + err)
         });
 });
-
-
-//GET friends in certain radius id
-// router.route('/getNearFriends')
-//     .get((req,res) => {
-//         let id = req.body.id;
-//         let radius = req.body.radius;
-//         var nearFriendsIds = getNearFriends(id, radius);
-//         res.send(nearFriendsIds);
-// });
-
-// //get free friends near me
-// function getNearFriends(id, radius){
-//     let friends = model.findClientById(id).friends;
-//         let userLocation = model.getLocation(id);
-//         // let userLocation = {latitude: 51.5103, longitude: 7.49347};
-//         // let friendLocation = {latitude: 23.5103, longitude: 42.49347};
-//         //let radius = 4311099;
-//         var nearFriendsIds = [];
-//        // var friends = ['1','2','3','4','5','6','7','8','9'];
-//         for (i in friends){
-//             let friendLocation = model.getLocation(id);
-//             let distance = geolib.getDistance(userLocation,friendLocation);
-//             if (distance <= radius){
-//                 nearFriendsIds.push(i);
-//             }
-//         }
-//         return nearFriendsIds;
-// }
 
 ///yelp api call
 // tested --> works

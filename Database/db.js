@@ -121,10 +121,10 @@ module.exports = {
   clearDatabase :  clearDatabase,
   deleteClient : deleteClient, 
   deleteClientById : deleteClientById,
-  getLocations : getLocations, //used /getDistance
+  getLocations : getLocations, //used --> works
   updateLocation : updateLocation,  //used --> works
-  getFriends : getFriends, // used /getNotAvailableFriends
+  getFriends : getFriends, // used --> works
   addCalendar : addCalendar, // used --> works
   updateCalendar : updateCalendar, // used --> works
-  checkCalendar : checkCalendar //used /getNotAvailableFriends
+  checkCalendar : checkCalendar //used --> works
 };
