@@ -139,18 +139,16 @@ router.route('/getNotAvailableFriends')
         var hours = d.getHours();
         var minutes = d.getMinutes() / 60;
         var time = hours + minutes; //TODO get rid of magic number
+        console.log(hours);
+        console.log(minutes);
+        console.log(time);
 
         var friendsPromise = model.getFriends(id);
 
         friendsPromise.then(
             function(content){
-                console.log("get freidns parsing: ");
-                console.log(content[0]);
-                console.log(content[0].friends);
-                console.log(content[0].friends[0]);
                 var friends = [];
                 content[0].friends.forEach(function(item, index){
-                    console.log(item.id);
                     friends[index] = item.id;
                 });
                 console.log(friends);

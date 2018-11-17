@@ -42,10 +42,6 @@ var updateCalendar = function(id, events){ // TODO make sure this is called when
 var checkCalendar = function(friends, date, timeStart, timeEnd){
 
 	console.log("checkClaendar function: ");
-	console.log(typeof(friends));
-	console.log(friends);
-	console.log(typeof(date));
-	console.log(date);
 	console.log(typeof(timeStart));
 	console.log(timeStart);
 	return Calendar.find(
@@ -56,8 +52,8 @@ var checkCalendar = function(friends, date, timeStart, timeEnd){
 					date: date,
 					events: {
 						$elemMatch: {
-							startTime: {$gt: timeEnd},
-							endTime: {$lt: timeStart}
+							startTime: {$lt: timeEnd},
+							endTime: {$gt: timeStart}
 						}
 					}
 				}
