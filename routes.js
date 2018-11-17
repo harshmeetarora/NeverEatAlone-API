@@ -247,7 +247,8 @@ router.route('/idHash')
 // });
 
 router.route('/addUser')
-    .post((req,res) => {
+    // .post((req,res) => {
+    .get((req,res) => {
         // TODO deal with user already exists case
         // let user = req.body;
         let user = clientObject1;
