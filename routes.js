@@ -9,7 +9,133 @@ var hashids = new Hashids();
 
 let router  = express.Router();
 
-// 
+// test Objects
+
+
+var clientObject1 = {
+	id : 1,
+	name: "Laurenz",
+ 	email: "notimportant",
+ 	coordinates: {
+ 		lat: 47.2606,
+ 		long: 120.2460,
+ 	},
+ 	friends: [{id: 2}, {id: 3}]
+}
+var newLocation1 = {
+    coordinates: {
+        lat: 49.2606,
+        long: 123.2460,
+    }
+}
+var calendarObject1 = {
+    id: 1,
+    events: [
+        {
+            date: "11/16/2018",
+            events: [
+                {
+                    key: 1,
+                    title: "something",
+                    startTime: 19.5,
+                    endTime: 20.5,
+                },
+                {
+                    key: 2,
+                    title: "something",
+                    startTime: 21,
+                    endTime: 22,
+                },
+                {
+                    key: 3,
+                    title: "something",
+                    startTime: 18,
+                    endTime: 19,
+                }
+            ]
+        }
+    ]
+};
+
+var clientObject2 = {
+	id : 2,
+	name: "Harsh",
+ 	email:  "notimportant",
+ 	coordinates: {
+ 		lat: 49.2827,
+ 		long: 123.1207,
+ 	},
+ 	friends: [{id: 1}]
+}
+
+var calendarObject2 = {
+    id: 2,
+    events: [
+        {
+            date: "11/16/2018",
+            events: [
+                {
+                    key: 1,
+                    title: "something",
+                    startTime: 19.5,
+                    endTime: 20.5,
+                },
+                {
+                    key: 2,
+                    title: "something",
+                    startTime: 21,
+                    endTime: 22,
+                },
+                {
+                    key: 3,
+                    title: "something",
+                    startTime: 18,
+                    endTime: 19,
+                }
+            ]
+        }
+    ]
+};
+
+var clientObject3 = {
+	id : 3,
+	name: "Matt",
+ 	email:  "notimportant",
+ 	coordinates: {
+ 		lat: 49.1666,
+ 		long: 123.1336,
+ 	},
+ 	friends: [{id: 1}]
+}
+
+var calendarObject3 = {
+    id: 3,
+    events: [
+        {
+            date: "11/16/2018",
+            events: [
+                {
+                    key: 1,
+                    title: "something",
+                    startTime: 19.5,
+                    endTime: 20.5,
+                },
+                {
+                    key: 2,
+                    title: "something",
+                    startTime: 21,
+                    endTime: 22,
+                },
+                {
+                    key: 3,
+                    title: "something",
+                    startTime: 18,
+                    endTime: 19,
+                }
+            ]
+        }
+    ]
+};
 
 
 //test 
@@ -122,41 +248,46 @@ router.route('/idHash')
 
 router.route('/addUser')
     .post((req,res) => {
-        //console.log(req.body);
-        let user = req.body;
+        // TODO deal with user already exists case
+        // let user = req.body;
+        let user = clientObject1;
         //console.log(user);
-        model.addNewClient(user);
-        //let friend = model.findClientById(user.id);
-        //console.log(friend);
-        res.send("user added");
+        var clientPromise = model.addNewClient(user);
 
-        
+        clientPromise.then(
+            function(content){
+                res.send("user added:" + content);
+            },
+            function(err){
+                res.send(err);
+            }
+        );
 });
 
 //PUT update user location
-router.route('/updateLocation')
-    .put((req,res) => {
-        let id = req.body.id;
-        let location = req.body.location;
-        console.log(location);
-        model.updateLocation(id, location);
-        res.send({'location' : location});
-});
-
 // router.route('/updateLocation')
 //     .put((req,res) => {
 //         let id = req.body.id;
 //         let location = req.body.location;
 //         console.log(location);
-        
-//         var promise = model.updateLocation(id, location);
-//         promise.then(function() {
-//             res.send("user added");
-//         }, function(err) {
-//             res.send(err)
-//         });
+//         model.updateLocation(id, location);
 //         res.send({'location' : location});
 // });
+
+router.route('/updateLocation')
+    .put((req,res) => {
+        // let id = req.body.id;
+        // let location = req.body.location;
+        let id = 1;
+        let location = newLocation1;
+        
+        var promise = model.updateLocation(id, location);
+        promise.then(function(content) {
+            res.send("location updated: " + content);
+        }, function(err) {
+            res.send(err)
+        });
+});
 
 
 //GET friends in certain radius id
@@ -178,7 +309,7 @@ function getNearFriends(id, radius){
         var nearFriendsIds = [];
        // var friends = ['1','2','3','4','5','6','7','8','9'];
         for (i in friends){
-            let friendLocation = model.getLocationById(id);
+            let friendLocation = model.getLocation(id);
             let distance = geolib.getDistance(userLocation,friendLocation);
             if (distance <= radius){
                 nearFriendsIds.push(i);

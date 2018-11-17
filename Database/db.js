@@ -93,7 +93,7 @@ var getLocation = function(id){
 	return Client.find({"id": id}, {"coordinates": 1 , "_id": 0});
 }
 
-var updateLocation = function(id, coordinates){
+var updateLocation = function(id, coordinates){ 
 	Client.update({"id": id}, { $set: {"coordinates": coordinates}});
 }
 
@@ -102,15 +102,15 @@ var getFriends = function(id){
 }
 
 module.exports = {
-  addNewClient : addNewClient,
-  findClient : findClient,
-  findClientById : findClientById,
+  addNewClient : addNewClient, //used
+  findClient : findClient, //not needed
+  findClientById : findClientById, //will be used later
   clearDatabase :  clearDatabase,
-  deleteClient : deleteClient,
+  deleteClient : deleteClient, 
   deleteClientById : deleteClientById,
-  getLocation : getLocation,
-  updateLocation : updateLocation, 
-  getFriends : getFriends,
-  updateCalendar : updateCalendar,
-  checkCalendar : checkCalendar
+  getLocation : getLocation, //used
+  updateLocation : updateLocation,  //used
+  getFriends : getFriends, // used
+  updateCalendar : updateCalendar, // used
+  checkCalendar : checkCalendar //used
 };
