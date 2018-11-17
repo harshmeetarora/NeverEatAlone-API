@@ -137,14 +137,14 @@ router.route('/getNotAvailableFriends')
         var d = new Date();
         var date = d.toLocaleDateString();
         var hours = d.getHours();
-        var minutes = d.getMinutes/60;
+        var minutes = d.getMinutes() / 60;
         var time = hours + minutes; //TODO get rid of magic number
 
         var friendsPromise = model.getFriends(id);
 
         friendsPromise.then(
             function(content){
-                var friends = content;
+                var friends = JSON.parse(content).friends;
                 var calendarPromise = model.checkCalendar(friends, date, time, (time+0.5)); //TODO get rid of magic number
                 calendarPromise.then(
                     function(content2){
