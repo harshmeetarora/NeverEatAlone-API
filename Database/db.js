@@ -111,16 +111,16 @@ var getFriends = function(id){
 }
 
 module.exports = {
-  addNewClient : addNewClient, //used --> executes twice?
+  addNewClient : addNewClient, //used --> works
   findClient : findClient, //not needed
   findClientById : findClientById, //will be used later
   clearDatabase :  clearDatabase,
   deleteClient : deleteClient, 
   deleteClientById : deleteClientById,
-  getLocation : getLocation, //used 
+  getLocation : getLocation, //used /getDistance
   updateLocation : updateLocation,  //used --> works
-  getFriends : getFriends, // used
-  addCalendar : addCalendar, // used
-  updateCalendar : updateCalendar, // used
-  checkCalendar : checkCalendar //used
+  getFriends : getFriends, // used /getNotAvailableFriends
+  addCalendar : addCalendar, // used --> works
+  updateCalendar : updateCalendar, // used /updateCalendar
+  checkCalendar : checkCalendar //used /getNotAvailableFriends
 };

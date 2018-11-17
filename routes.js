@@ -98,6 +98,7 @@ router.route('/test')
 });
 
 //calendarPut
+// TODO test this
 router.route('/updateCalendar')
     .post((req,res) => {
         console.log("add new client route called");
@@ -115,7 +116,8 @@ router.route('/updateCalendar')
 });
 
 // friend availability get
-router.route('/getAvailableFriends')
+//TODO test this
+router.route('/getNotAvailableFriends')
     .get((req,res) => {
         var id = req.body.id;
         var d = new Date();
@@ -164,6 +166,7 @@ router.route('/getDistance')
                         console.log("got location 2");
                         var location2 = content2;
                         var distance = geolib.getDistance(location1,location2);
+                        //TODO the location jsons need to be turned from {long: lat} to {longitude, latitude}
                         console.log("actual distance : " + distance);
                         res.send(distance);
                     },
@@ -204,7 +207,8 @@ router.route('/idHash')
 //         });
 // });
 
-router.route('/addUser1')
+// tested --> works
+router.route('/addUser')
     // .post((req,res) => {
     .get((req,res) => {
         // TODO deal with user already exists case
@@ -212,62 +216,6 @@ router.route('/addUser1')
         console.log("add new client route called");
         let user = clientObject1;
         let calendar = calendarObject2;
-        let id = user.id;
-
-        var clientPromise = model.addNewClient(user);
-        clientPromise.then(
-            function(content){
-                var calendarPromise = model.addCalendar(id, calendar);
-                calendarPromise.then(
-                    function(content2){
-                        res.send("success user + calendar added: " + content + content2);
-                    },
-                    function(err2){
-                        res.send("error occured: " + err2);
-                    }        
-                );
-            },
-            function(err){
-                res.send("error occured: " + err);
-            }
-        );
-});
-router.route('/addUser2')
-    // .post((req,res) => {
-    .get((req,res) => {
-        // TODO deal with user already exists case
-        // let user = req.body;
-        console.log("add new client route called");
-        let user = clientObject2;
-        let calendar = calendarObject3;
-        let id = user.id;
-
-        var clientPromise = model.addNewClient(user);
-        clientPromise.then(
-            function(content){
-                var calendarPromise = model.addCalendar(id, calendar);
-                calendarPromise.then(
-                    function(content2){
-                        res.send("success user + calendar added: " + content + content2);
-                    },
-                    function(err2){
-                        res.send("error occured: " + err2);
-                    }        
-                );
-            },
-            function(err){
-                res.send("error occured: " + err);
-            }
-        );
-});
-router.route('/addUser3')
-    // .post((req,res) => {
-    .get((req,res) => {
-        // TODO deal with user already exists case
-        // let user = req.body;
-        console.log("add new client route called");
-        let user = clientObject3;
-        let calendar = calendarObject3;
         let id = user.id;
 
         var clientPromise = model.addNewClient(user);
@@ -299,6 +247,7 @@ router.route('/addUser3')
 //         res.send({'location' : location});
 // });
 
+// tested --> works
 router.route('/updateLocation')
     // .put((req,res) => {
     .get((req,res) => {
@@ -317,34 +266,35 @@ router.route('/updateLocation')
 
 
 //GET friends in certain radius id
-router.route('/getNearFriends')
-    .get((req,res) => {
-        let id = req.body.id;
-        let radius = req.body.radius;
-        var nearFriendsIds = getNearFriends(id, radius);
-        res.send(nearFriendsIds);
-});
+// router.route('/getNearFriends')
+//     .get((req,res) => {
+//         let id = req.body.id;
+//         let radius = req.body.radius;
+//         var nearFriendsIds = getNearFriends(id, radius);
+//         res.send(nearFriendsIds);
+// });
 
-//get free friends near me
-function getNearFriends(id, radius){
-    let friends = model.findClientById(id).friends;
-        let userLocation = model.getLocation(id);
-        // let userLocation = {latitude: 51.5103, longitude: 7.49347};
-        // let friendLocation = {latitude: 23.5103, longitude: 42.49347};
-        //let radius = 4311099;
-        var nearFriendsIds = [];
-       // var friends = ['1','2','3','4','5','6','7','8','9'];
-        for (i in friends){
-            let friendLocation = model.getLocation(id);
-            let distance = geolib.getDistance(userLocation,friendLocation);
-            if (distance <= radius){
-                nearFriendsIds.push(i);
-            }
-        }
-        return nearFriendsIds;
-}
+// //get free friends near me
+// function getNearFriends(id, radius){
+//     let friends = model.findClientById(id).friends;
+//         let userLocation = model.getLocation(id);
+//         // let userLocation = {latitude: 51.5103, longitude: 7.49347};
+//         // let friendLocation = {latitude: 23.5103, longitude: 42.49347};
+//         //let radius = 4311099;
+//         var nearFriendsIds = [];
+//        // var friends = ['1','2','3','4','5','6','7','8','9'];
+//         for (i in friends){
+//             let friendLocation = model.getLocation(id);
+//             let distance = geolib.getDistance(userLocation,friendLocation);
+//             if (distance <= radius){
+//                 nearFriendsIds.push(i);
+//             }
+//         }
+//         return nearFriendsIds;
+// }
 
 ///yelp api call
+// tested --> works
 router.route('/yelp')
     .get((req,res) => {
     var latitude = '49.246292' ;
