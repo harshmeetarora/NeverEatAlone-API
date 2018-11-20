@@ -77,7 +77,6 @@ var clientSchema = new mongoose.Schema({
 var Client = mongoose.model("Client", clientSchema);
 
 var addNewClient = function(clientInfo){
-	console.log("addNewClient called");
 	return Client.create(clientInfo);
 }
 

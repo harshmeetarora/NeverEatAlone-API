@@ -3,7 +3,6 @@ let model = require('./Database/db.js');
 let yelpAPI = require ('./yelp-api.js');
 let Hashids = require('hashids');
 let geolib = require('geolib');
-let yelp = require('yelp-fusion');
 
 var hashids = new Hashids();
 
@@ -247,7 +246,8 @@ router.route('/addUser')
                 var calendarPromise = model.addCalendar(id, calendar);
                 calendarPromise.then(
                     function(content2){
-                        res.send("success user + calendar added: " + content + content2);
+                        // res.send("success user + calendar added: " + content + content2);
+                        res.send("success");
                     },
                     function(err2){
                         res.send("error occured: " + err2);
