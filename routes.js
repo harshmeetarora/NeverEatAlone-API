@@ -219,16 +219,12 @@ router.route('/addUser')
         let user = req.body.user;
         let id = user.id;
         let calendar = req.body.calendar;
-        console.log(req.body);
         console.log("add new client route called");
-        console.log(user);
-        console.log(user.id);
         
 
         var clientPromise = model.findClientById(id);
         clientPromise.then(
             function(content){
-                console.log("showing content here: " + content);
                 if (content == {}){
                     console.log("New Client coming in");
                     var calendarPromise = model.addNewClient(user);
@@ -241,6 +237,7 @@ router.route('/addUser')
                         }        
                     );
                 } else {
+                    console.log("client beeing updated");
                     var deletePromise = model.deleteClientById(id);
                     deletePromise.then(
                         function(){
@@ -295,7 +292,6 @@ router.route('/yelp')
     //console.log(yelpPromise);
     yelpPromise.then(
         function(content){
-            console.log(content);
             res.send({'Recommendations' : content});
         });
 });
