@@ -12,12 +12,18 @@ var getYelpRecommendation = function(latitude, longitude, radius, keyword){
                         'longitude': longitude,
                         'radius': radius,
                         'term': keyword};
-    client.search(searchRequest).then(response => {
-        const prettyJson = JSON.stringify(response, null, 4);
-        console.log(prettyJson);
-    }).catch(e => {
-        console.log(e);
+    var prettyJson ={};
+
+    return new Promise(function (resolve, reject) {
+        client.search(searchRequest).then(response => {
+            prettyJson = JSON.stringify(response, null, 4);
+            console.log(prettyJson);
+            resolve(prettyJson);
+        }).catch(e => {
+            console.log(e);
+        });
     });
+
 };
 
 module.exports = {
