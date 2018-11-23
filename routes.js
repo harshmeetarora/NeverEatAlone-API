@@ -19,7 +19,6 @@ router.route('/test')
 //calendarPut --> WORKS
 router.route('/updateCalendar')
     .post((req,res) => {
-    // .get((req,res) => {
         console.log("update calendar route called");
         var id = req.body.id;
         var events = req.body.calendar;
@@ -148,7 +147,12 @@ router.route('/addUser')
         let user = req.body.user;
         let id = req.body.id;
         let calendar = req.body.calendar;
+        console.log(req.body);
         console.log("add new client route called");
+        console.log(user);
+        console.log(id);
+        console.log(calendar);
+        
 
         var clientPromise = model.addNewClient(user);
         clientPromise.then(
