@@ -22,7 +22,45 @@ router.route('/updateCalendar')
         console.log("update calendar route called");
         var id = req.body.id;
         var events = req.body.calendar;
-        var events = calendarObject2;
+
+        var calendarPromise = model.findCalendar(id); 
+        calendarPromise.then(
+            function(content){
+                if(content == {}){
+                    addCalendarPromise = model.addCalendar(id, events);
+                    addCalendarPromise.then(
+                        function(content2){
+                            res.send("sucess" + content2);
+                        },
+                        function(err2){
+                            res.send("failure4: " + err2);
+                        }
+                    );
+                } else {
+                    deleteCalendarPromise = model.deleteCalendar(id);
+                    deleteCalendarPromise.then(
+                        function(){
+                            newCalendarPromise = model.addCalendar(id,events);
+                            newCalendarPromise.then(
+                                function(content4){
+                                    res.send("sucess" + content4);
+                                },
+                                function(err4){
+                                    res.send("failure4: " + err4);
+                                }
+                            );
+                        },
+                        function(err3){
+                            res.send("failure3: " + err3);
+                        }
+                    );
+                }
+            },
+            function(err){
+                res.send("failure1: " + err);
+            }
+        );
+        
         var calendarPromise = model.updateCalendar(id, events); 
         calendarPromise.then(
             function(content){
@@ -139,10 +177,44 @@ router.route('/idHash')
 });
 
 
+// // tested --> works
+// router.route('/addUser')
+//     .post((req,res) => {
+//     // .get((req,res) => {
+//         // TODO deal with user already exists case
+//         let user = req.body.user;
+//         let id = user.id;
+//         let calendar = req.body.calendar;
+//         console.log(req.body);
+//         console.log("add new client route called");
+//         console.log(user);
+//         console.log(user.id);
+//         console.log(calendar);
+        
+
+//         var clientPromise = model.addNewClient(user);
+//         clientPromise.then(
+//             function(content){
+//                 var calendarPromise = model.addCalendar(id, calendar);
+//                 calendarPromise.then(
+//                     function(content2){
+//                         res.send(content + content2);
+//                         // res.send("success");
+//                     },
+//                     function(err2){
+//                         res.send("error occured: " + err2);
+//                     }        
+//                 );
+//             },
+//             function(err){
+//                 res.send("error occured: " + err);
+//             }
+//         );
+// });
+
 // tested --> works
 router.route('/addUser')
     .post((req,res) => {
-    // .get((req,res) => {
         // TODO deal with user already exists case
         let user = req.body.user;
         let id = user.id;
@@ -151,25 +223,44 @@ router.route('/addUser')
         console.log("add new client route called");
         console.log(user);
         console.log(user.id);
-        console.log(calendar);
         
 
-        var clientPromise = model.addNewClient(user);
+        var clientPromise = model.findClientById(id);
         clientPromise.then(
             function(content){
-                var calendarPromise = model.addCalendar(id, calendar);
-                calendarPromise.then(
-                    function(content2){
-                        res.send(content + content2);
-                        // res.send("success");
-                    },
-                    function(err2){
-                        res.send("error occured: " + err2);
-                    }        
-                );
+                console.log("showing content here: " + content);
+                if (content == {}){
+                    var calendarPromise = model.addNewClient(user);
+                    calendarPromise.then(
+                        function(content2){
+                            res.send("sucess1: " + content + content2);
+                        },
+                        function(err2){
+                            res.send("error2 occured: " + err2);
+                        }        
+                    );
+                } else {
+                    var deletePromise = deleteClientById(id);
+                    deletePromise.then(
+                        function(){
+                            var newClientPromise = model.addNewClient(user);
+                            newClientPromise.then(
+                                function(content3){
+                                    res.send("sucess1: " + content + content3);
+                                },
+                                function(err3){
+                                    res.send("error3 occured: " + err3);
+                                }        
+                            );
+                        },
+                        function(err4){
+                            res.send("error4 occured: " + err4);
+                        }
+                    );
+                }
             },
             function(err){
-                res.send("error occured: " + err);
+                res.send("error1 occured: " + err);
             }
         );
 });

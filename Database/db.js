@@ -22,6 +22,10 @@ var calendarSchema = new mongoose.Schema({
 });
 var Calendar = mongoose.model("Calendar", calendarSchema);
 
+var findCalendar = function(id){
+	return Calendar.find({"id": id});
+}
+
 var addCalendar = function(id, calendar){
 	console.log("addCalendar called");
 	return Calendar.create({
@@ -37,6 +41,10 @@ var updateCalendar = function(id, events){ // TODO make sure this is called when
 			{"events": events}
 		}
 	);
+}
+
+var deleteCalendar = function(id){
+	return Calendar.deleteOne({"id": id});
 }
 
 var checkCalendar = function(friends, date, timeStart, timeEnd){
@@ -125,5 +133,7 @@ module.exports = {
   getFriends : getFriends, // used --> works
   addCalendar : addCalendar, // used --> works
   updateCalendar : updateCalendar, // used --> works
+  deleteCalendar : deleteCalendar,
+  findCalendar : findCalendar,
   checkCalendar : checkCalendar //used --> works
 };
