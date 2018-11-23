@@ -230,6 +230,7 @@ router.route('/addUser')
             function(content){
                 console.log("showing content here: " + content);
                 if (content == {}){
+                    console.log("New Client coming in");
                     var calendarPromise = model.addNewClient(user);
                     calendarPromise.then(
                         function(content2){
@@ -240,7 +241,7 @@ router.route('/addUser')
                         }        
                     );
                 } else {
-                    var deletePromise = deleteClientById(id);
+                    var deletePromise = model.deleteClientById(id);
                     deletePromise.then(
                         function(){
                             var newClientPromise = model.addNewClient(user);
