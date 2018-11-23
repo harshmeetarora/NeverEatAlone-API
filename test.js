@@ -59,11 +59,8 @@ describe("getFriends()", function(){
     });
 });
 
-var newLocation1 = {
-    lat: 47.2606,
-    long: 123.2460
-}
 
+// test Objects
 var clientObject1 = {
 	id : 1,
 	name: "Laurenz",
@@ -73,6 +70,32 @@ var clientObject1 = {
  		long: 120.2460,
  	},
  	friends: [{id: 2}, {id: 3}]
+}
+var newLocation1 = {
+    lat: 49.2606,
+    long: 123.2460
+}
+
+var clientObject2 = {
+	id : 2,
+	name: "Harsh",
+ 	email:  "notimportant",
+ 	coordinates: {
+ 		lat: 49.2827,
+ 		long: 123.1207,
+ 	},
+ 	friends: [{id: 1}]
+}
+
+var clientObject3 = {
+	id : 3,
+	name: "Matt",
+ 	email:  "notimportant",
+ 	coordinates: {
+ 		lat: 49.1666,
+ 		long: 123.1336,
+ 	},
+ 	friends: [{id: 1}]
 }
 
 var calendarObject2 = [
@@ -99,6 +122,20 @@ var calendarObject2 = [
             }
         ]
     },{
+        date: "11/16/2018",
+        events: [
+            {
+                key: 3,
+                title: "something",
+                startTime: 18,
+                endTime: 19,
+            }
+        ]
+    }
+];
+
+var calendarObject3 =  [
+    {
         date: "11/16/2018",
         events: [
             {

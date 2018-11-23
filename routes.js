@@ -8,94 +8,6 @@ var hashids = new Hashids();
 
 let router  = express.Router();
 
-// test Objects
-var clientObject1 = {
-	id : 1,
-	name: "Laurenz",
- 	email: "notimportant",
- 	coordinates: {
- 		lat: 47.2606,
- 		long: 120.2460,
- 	},
- 	friends: [{id: 2}, {id: 3}]
-}
-var newLocation1 = {
-    lat: 49.2606,
-    long: 123.2460
-}
-
-var clientObject2 = {
-	id : 2,
-	name: "Harsh",
- 	email:  "notimportant",
- 	coordinates: {
- 		lat: 49.2827,
- 		long: 123.1207,
- 	},
- 	friends: [{id: 1}]
-}
-
-var clientObject3 = {
-	id : 3,
-	name: "Matt",
- 	email:  "notimportant",
- 	coordinates: {
- 		lat: 49.1666,
- 		long: 123.1336,
- 	},
- 	friends: [{id: 1}]
-}
-
-var calendarObject2 = [
-    {
-        date: "11/17/2018",
-        events: [
-            {
-                key: 1,
-                title: "something",
-                startTime: 12.5,
-                endTime: 17,
-            },
-            {
-                key: 2,
-                title: "something",
-                startTime: 21,
-                endTime: 22,
-            },
-            {
-                key: 3,
-                title: "something",
-                startTime: 18,
-                endTime: 19,
-            }
-        ]
-    },{
-        date: "11/16/2018",
-        events: [
-            {
-                key: 3,
-                title: "something",
-                startTime: 18,
-                endTime: 19,
-            }
-        ]
-    }
-];
-
-var calendarObject3 =  [
-    {
-        date: "11/16/2018",
-        events: [
-            {
-                key: 3,
-                title: "something",
-                startTime: 18,
-                endTime: 19,
-            }
-        ]
-    }
-];
-
 
 //test 
 router.route('/test')
@@ -106,12 +18,11 @@ router.route('/test')
 
 //calendarPut --> WORKS
 router.route('/updateCalendar')
-    // .post((req,res) => {
-    .get((req,res) => {
+    .post((req,res) => {
+    // .get((req,res) => {
         console.log("update calendar route called");
-        // var id = req.body.id;
-        // var events = req.body.calendar;
-        var id = 3;
+        var id = req.body.id;
+        var events = req.body.calendar;
         var events = calendarObject2;
         var calendarPromise = model.updateCalendar(id, events); 
         calendarPromise.then(
@@ -127,8 +38,8 @@ router.route('/updateCalendar')
 // friend availability get --> works
 router.route('/getNotAvailableFriends')
     .get((req,res) => {
-        // var id = req.body.id;
-        var id = 1;
+        var id = req.body.id;
+        // var id = 1;
         var d = new Date();
         var date = d.toLocaleDateString();
         var hours = d.getUTCHours() - 8; //UTC - adjustment for westcoast canada
@@ -231,14 +142,13 @@ router.route('/idHash')
 
 // tested --> works
 router.route('/addUser')
-    // .post((req,res) => {
-    .get((req,res) => {
+    .post((req,res) => {
+    // .get((req,res) => {
         // TODO deal with user already exists case
-        // let user = req.body;
+        let user = req.body.user;
+        let id = req.body.id;
+        let calendar = req.body.calendar;
         console.log("add new client route called");
-        let user = clientObject1;
-        let calendar = calendarObject2;
-        let id = user.id;
 
         var clientPromise = model.addNewClient(user);
         clientPromise.then(
@@ -246,8 +156,8 @@ router.route('/addUser')
                 var calendarPromise = model.addCalendar(id, calendar);
                 calendarPromise.then(
                     function(content2){
-                        // res.send("success user + calendar added: " + content + content2);
-                        res.send("success");
+                        res.send(content + content2);
+                        // res.send("success");
                     },
                     function(err2){
                         res.send("error occured: " + err2);
@@ -263,12 +173,10 @@ router.route('/addUser')
 
 // tested --> works
 router.route('/updateLocation')
-    // .put((req,res) => {
-    .get((req,res) => {
-        // let id = req.body.id;
-        // let location = req.body.location;
-        let id = 1;
-        let location = newLocation1;
+    .put((req,res) => {
+    // .get((req,res) => {
+        let id = req.body.id;
+        let location = req.body.location;
         
         var promise = model.updateLocation(id, location);
         promise.then(function(content) {
