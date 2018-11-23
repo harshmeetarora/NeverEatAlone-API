@@ -145,12 +145,12 @@ router.route('/addUser')
     // .get((req,res) => {
         // TODO deal with user already exists case
         let user = req.body.user;
-        let id = req.body.id;
+        let id = user.id;
         let calendar = req.body.calendar;
         console.log(req.body);
         console.log("add new client route called");
         console.log(user);
-        console.log(id);
+        console.log(user.id);
         console.log(calendar);
         
 
