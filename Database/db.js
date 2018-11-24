@@ -15,8 +15,10 @@ var calendarSchema = new mongoose.Schema({
         events: [{
             key: Number,
             title: String,
-            startTime: Number,
-            endTime: Number,
+            startNum: Number,
+			endNum: Number,
+			startTime: String,
+			endTime: String,
        	}]
    	}]
 });
@@ -61,8 +63,8 @@ var checkCalendar = function(friends, date, timeStart, timeEnd){
 					date: date,
 					events: {
 						$elemMatch: {
-							startTime: {$lt: timeEnd},
-							endTime: {$gt: timeStart}
+							startNum: {$lt: timeEnd},
+							endNum: {$gt: timeStart}
 						}
 					}
 				}

@@ -151,7 +151,6 @@ router.route('/addUser')
         // TODO deal with user already exists case
         let user = req.body.user;
         let id = user.id;
-        let calendar = req.body.calendar;
         console.log("add/update client route called");
         var deletePromise = model.deleteClientById(id);
         deletePromise.then(
