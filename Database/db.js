@@ -9,7 +9,7 @@ db.once('open', function() {
 });
 
 var calendarSchema = new mongoose.Schema({
-	id: Number,
+	id: String,
 	eventDates: [{
         date: String,
         events: [{
