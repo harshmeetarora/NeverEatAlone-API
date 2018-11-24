@@ -51,7 +51,6 @@ router.route('/getNotAvailableFriends')
         var hours = d.getUTCHours() - 8; //UTC - adjustment for westcoast canada
         var minutes = d.getMinutes() / 60; // 60 minutes in an hour 
         var time = hours + minutes; // time as a float 0-24
-        console.log(hours);
 
         var friendsPromise = model.getFriends(id);
 
@@ -71,7 +70,7 @@ router.route('/getNotAvailableFriends')
                         content2.forEach(function(item, index){
                             unavailableFriends[index] = item.id;
                         });
-                        var returnJSON = {friends:friends, unavailableFriends:unavailableFriends};
+                        var returnJSON = formatFriendsAvailability(friends, unavailableFriends);
                         res.send(returnJSON);
                     },
                     function (err2){
@@ -84,6 +83,20 @@ router.route('/getNotAvailableFriends')
             }
         );
 });
+
+var formatFriendsAvailability = function(friends, unavailableFriends){
+    var returnObject = [];
+    var bool;
+    for (var i = 0; i < friends.length(); i++){ 
+        if (unavailableFriends.includes(friends[i])){
+            bool = false;
+        } else {
+            bool = true;
+        }
+        returnObject[i] = {id: friends[i], status: bool};
+    }
+    return returnObject;
+}
 
 
 //getDistance --> (id) --> [{id:id, distance:distance}]
