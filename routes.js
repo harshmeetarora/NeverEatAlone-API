@@ -42,10 +42,10 @@ router.route('/updateCalendar')
 });
 
 // friend availability get --> works
-router.route('/getNotAvailableFriends')
+router.route('/getFriendsStatus')
     .get((req,res) => {
         var id = req.body.id;
-        // var id = 1;
+        
         var d = new Date();
         var date = d.toLocaleDateString();
         var hours = d.getUTCHours() - 8; //UTC - adjustment for westcoast canada
