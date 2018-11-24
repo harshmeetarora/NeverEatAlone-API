@@ -44,14 +44,14 @@ router.route('/updateCalendar')
 // friend availability get --> works
 router.route('/getFriendsStatus')
     .get((req,res) => {
-        var id = req.body.id;
-        
+        var id = req.query.id;
+
         var d = new Date();
         var date = d.toLocaleDateString();
         var hours = d.getUTCHours() - 8; //UTC - adjustment for westcoast canada
         var minutes = d.getMinutes() / 60; // 60 minutes in an hour 
         var time = hours + minutes; // time as a float 0-24
-
+        console.log("get friends status called");
         var friendsPromise = model.getFriends(id);
 
         friendsPromise.then(
