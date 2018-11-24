@@ -1,8 +1,11 @@
+import Expo from 'expo-server-sdk';
 let express = require('express');
 let model = require('./Database/db.js');
 let yelpAPI = require ('./yelp-api.js');
 let Hashids = require('hashids');
 let geolib = require('geolib');
+let expo = new Expo();
+
 
 var hashids = new Hashids();
 
@@ -41,32 +44,18 @@ router.route('/updateCalendar')
         );    
 });
 
-router.route('getCalendar')
-    .get((req,res) => {
-        req.query.id;
-        calendarPromise = module.getCalendar(id);
-        calendarPromise.then(
-            function(content){
-                res.send(content);
-            },
-            function(err){
-                res.send("error get calendar: " + err);
-            }
-        );
-    }
-);
-
 // friend availability get --> works
-router.route('/getFriendsStatus')
+router.route('/getNotAvailableFriends')
     .get((req,res) => {
-        var id = req.query.id;
-
+        var id = req.body.id;
+        // var id = 1;
         var d = new Date();
         var date = d.toLocaleDateString();
-        var hours = (d.getUTCHours() + 16)%24; //UTC - adjustment for westcoast canada
+        var hours = d.getUTCHours() - 8; //UTC - adjustment for westcoast canada
         var minutes = d.getMinutes() / 60; // 60 minutes in an hour 
         var time = hours + minutes; // time as a float 0-24
-        console.log("get friends status called");
+        console.log(hours);
+
         var friendsPromise = model.getFriends(id);
 
         friendsPromise.then(
@@ -75,48 +64,37 @@ router.route('/getFriendsStatus')
                 content[0].friends.forEach(function(item, index){
                     friends[index] = item.id;
                 });
+                console.log(friends);
                 var calendarPromise = model.checkCalendar(friends, date, time, (time+0.5)); //TODO get rid of magic number
                 calendarPromise.then(
                     function(content2){
+                        console.log("unavailable friends: ");
+                        console.log(content2);
                         var unavailableFriends = [];
                         content2.forEach(function(item, index){
                             unavailableFriends[index] = item.id;
                         });
-                        var returnJSON = formatFriendsAvailability(friends, unavailableFriends);
+                        var returnJSON = {friends:friends, unavailableFriends:unavailableFriends};
                         res.send(returnJSON);
                     },
                     function (err2){
-                        res.send("err2 getFriendsStatus :" + err2);
+                        res.send(err2);
                     }
                 );
             },
             function (err){
-                res.send("err1 getFriendsStatus" + err);
+                res.send(err);
             }
         );
 });
-
-var formatFriendsAvailability = function(friends, unavailableFriends){
-    var returnObject = [];
-    var bool;
-    for (var i = 0; i < friends.length; i++){ 
-        if (unavailableFriends.includes(friends[i])){
-            bool = false;
-        } else {
-            bool = true;
-        }
-        returnObject[i] = {id: friends[i], status: bool};
-    }
-    return returnObject;
-}
-
 
 
 //getDistance --> (id) --> [{id:id, distance:distance}]
 // tested --> works
 router.route('/getDistance')
     .get((req,res) => {
-        var id = req.query.id;
+        // var id = req.body.id1;
+        var id = 1;
         var friendsPromise = model.getFriends(id);
 
         friendsPromise.then(
@@ -129,6 +107,7 @@ router.route('/getDistance')
                 var locationPromise = model.getLocations(friends);
                 locationPromise.then(
                     function (content2){
+                        console.log("got locations");
                         for(var i = 0; i < content2.length; i++){
                             if (content2[i].id == id)
                                 break;
@@ -142,7 +121,9 @@ router.route('/getDistance')
                                     {longitude: content2[i].coordinates.long, latitude: content2[i].coordinates.lat}
                                 );
                             distances[i] = {id: content2[i].id, distance: distance};
+                            console.log(distances[i]);
                         }
+                        console.log("actual distances : " + distances);
                         res.send(distances);
                     },
                     function (err2){
@@ -173,6 +154,8 @@ router.route('/addUser')
         // TODO deal with user already exists case
         let user = req.body.user;
         let id = user.id;
+        let pushToken = user.pushToken;
+
         console.log("add/update client route called");
         var deletePromise = model.deleteClientById(id);
         deletePromise.then(
@@ -213,7 +196,7 @@ router.route('/updateLocation')
 router.route('/yelp')
     .get((req,res) => {
     // var latitude = '49.246292' ;
-    // var longitude = '-123.116226' ;
+    // var longitude = '-123.116226' 
     // var radius ='1000';
     // var term = "bar";
 
@@ -221,13 +204,6 @@ router.route('/yelp')
     var longitude = req.query.longitude;
     var radius =req.query.radius;
     var term = req.query.term;
-
-    console.log(latitude);
-    console.log(longitude);
-    console.log(radius);
-
-    //console.log(JSON.stringify(req.params));
-
     var yelpPromise = yelpAPI.getYelpRecommendation(latitude, longitude, radius, term);
     //console.log(yelpPromise);
     yelpPromise.then(
@@ -235,6 +211,51 @@ router.route('/yelp')
             res.send({'Recommendations' : content});
         });
 });
+
+router.route('/sendinvite')
+    .post((req,res) => {
+
+        var id = req.body.id1;
+        var friendId = req.body.id2;
+        var pushToken = model.getPushToken(id);
+        var messageBody = req.body.message;
+
+    // Check that all your push tokens appear to be valid Expo push tokens
+    if (!Expo.isExpoPushToken(pushToken)) {
+        console.error(`Push token ${pushToken} is not a valid Expo push token`);
+        continue;
+    }
+    
+     // Construct a message (see https://docs.expo.io/versions/latest/guides/push-notifications.html)
+        let message = {
+            to: pushToken,
+            sound: 'default',
+            body: 'This is a test notification',
+            data: { withSome: messageBody },
+        };
+        //let tickets = [];
+        (async () => {
+          // Send the chunks to the Expo push notification service. There are
+          // different strategies you could use. A simple one is to send one chunk at a
+          // time, which nicely spreads the load out over time:
+        
+            try {
+              let ticketChunk = await expo.sendPushNotificationsAsync(message);
+              console.log(ticketChunk);
+              //tickets.push(ticketChunk);
+              // NOTE: If a ticket contains an error code in ticket.details.error, you
+              // must handle it appropriately. The error codes are listed in the Expo
+              // documentation:
+              // https://docs.expo.io/versions/latest/guides/push-notifications#response-format 
+            } catch (error) {
+              console.error(error);
+            }
+          
+        })();
+
+});
+
+
 
 
 module.exports = router;
