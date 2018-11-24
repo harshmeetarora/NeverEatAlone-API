@@ -41,6 +41,20 @@ router.route('/updateCalendar')
         );    
 });
 
+router.route('getCalendar')
+    .get((req,res) => {
+        req.query.id;
+        calendarPromise = module.getCalendar(id);
+        calendarPromise.then(
+            function(content){
+                res.send(content);
+            },
+            function(err){
+                res.send("error get calendar: " + err);
+            }
+        );
+    }
+);
 
 // friend availability get --> works
 router.route('/getFriendsStatus')
