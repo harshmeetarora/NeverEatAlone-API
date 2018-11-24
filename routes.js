@@ -67,7 +67,6 @@ router.route('/getFriendsStatus')
         var minutes = d.getMinutes() / 60; // 60 minutes in an hour 
         var time = hours + minutes; // time as a float 0-24
         console.log("get friends status called");
-        console.log("time: " + time);
         var friendsPromise = model.getFriends(id);
 
         friendsPromise.then(
@@ -84,7 +83,6 @@ router.route('/getFriendsStatus')
                             unavailableFriends[index] = item.id;
                         });
                         var returnJSON = formatFriendsAvailability(friends, unavailableFriends);
-                        console.log("returnJSON: "+ returnJSON);
                         res.send(returnJSON);
                     },
                     function (err2){
@@ -131,7 +129,6 @@ router.route('/getDistance')
                 var locationPromise = model.getLocations(friends);
                 locationPromise.then(
                     function (content2){
-                        console.log("got locations");
                         for(var i = 0; i < content2.length; i++){
                             if (content2[i].id == id)
                                 break;
@@ -146,7 +143,6 @@ router.route('/getDistance')
                                 );
                             distances[i] = {id: content2[i].id, distance: distance};
                         }
-                        console.log("actual distances : " + distances);
                         res.send(distances);
                     },
                     function (err2){
