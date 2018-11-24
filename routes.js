@@ -49,10 +49,11 @@ router.route('/getFriendsStatus')
 
         var d = new Date();
         var date = d.toLocaleDateString();
-        var hours = (d.getUTCHours() + 16)/24; //UTC - adjustment for westcoast canada
+        var hours = (d.getUTCHours() + 16)%24; //UTC - adjustment for westcoast canada
         var minutes = d.getMinutes() / 60; // 60 minutes in an hour 
         var time = hours + minutes; // time as a float 0-24
         console.log("get friends status called");
+        console.log("time: " + time);
         var friendsPromise = model.getFriends(id);
 
         friendsPromise.then(
@@ -61,12 +62,9 @@ router.route('/getFriendsStatus')
                 content[0].friends.forEach(function(item, index){
                     friends[index] = item.id;
                 });
-                console.log(friends);
                 var calendarPromise = model.checkCalendar(friends, date, time, (time+0.5)); //TODO get rid of magic number
                 calendarPromise.then(
                     function(content2){
-                        console.log("unavailable friends: ");
-                        console.log(content2);
                         var unavailableFriends = [];
                         content2.forEach(function(item, index){
                             unavailableFriends[index] = item.id;
