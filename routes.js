@@ -49,7 +49,7 @@ router.route('/getFriendsStatus')
 
         var d = new Date();
         var date = d.toLocaleDateString();
-        var hours = d.getUTCHours() - 8; //UTC - adjustment for westcoast canada
+        var hours = (d.getUTCHours() + 16)/24; //UTC - adjustment for westcoast canada
         var minutes = d.getMinutes() / 60; // 60 minutes in an hour 
         var time = hours + minutes; // time as a float 0-24
         console.log("get friends status called");
@@ -72,6 +72,7 @@ router.route('/getFriendsStatus')
                             unavailableFriends[index] = item.id;
                         });
                         var returnJSON = formatFriendsAvailability(friends, unavailableFriends);
+                        console.log("returnJSON: "+ returnJSON);
                         res.send(returnJSON);
                     },
                     function (err2){
