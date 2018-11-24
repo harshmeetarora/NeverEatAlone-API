@@ -332,10 +332,14 @@ router.route('/updateLocation')
 // tested --> works
 router.route('/yelp')
     .get((req,res) => {
-    var latitude = '49.246292' ;
-    var longitude = '-123.116226' ;
-    var radius ='1000';
-    var term = "bar";
+    // var latitude = '49.246292' ;
+    // var longitude = '-123.116226' ;
+    // var radius ='1000';
+    // var term = "bar";
+    var latitude = req.body.latitude ;
+    var longitude = req.body.longitude  ;
+    var radius =req.body.radius ;
+    var term = req.body.term ;
 
     var yelpPromise = yelpAPI.getYelpRecommendation(latitude, longitude, radius, term);
     //console.log(yelpPromise);
