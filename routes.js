@@ -194,13 +194,17 @@ router.route('/yelp')
     // var longitude = '-123.116226' ;
     // var radius ='1000';
     // var term = "bar";
-    var latitude = req.params.latitude ;
+
+    var latitude = parseFloat(req.params.latitude) ;
     var longitude = req.params.longitude;
     var radius =req.params.radius;
     var term = req.params.term;
+
     console.log(latitude);
     console.log(longitude);
     console.log(radius);
+
+    console.log(JSON.stringify(req.params));
 
     var yelpPromise = yelpAPI.getYelpRecommendation(latitude, longitude, radius, term);
     //console.log(yelpPromise);
