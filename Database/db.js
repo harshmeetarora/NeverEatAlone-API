@@ -10,7 +10,7 @@ db.once('open', function() {
 
 var calendarSchema = new mongoose.Schema({
 	id: Number,
-	events: [{
+	eventDates: [{
         date: String,
         events: [{
             key: Number,
@@ -30,7 +30,7 @@ var addCalendar = function(id, calendar){
 	console.log("addCalendar called");
 	return Calendar.create({
 		id: id,
-		events: calendar
+		eventDates: calendar
 	});
 }
 
@@ -38,13 +38,17 @@ var updateCalendar = function(id, events){ // TODO make sure this is called when
 	return Calendar.update(
 		{"id": id},
 		{ $set: 
-			{"events": events}
+			{"eventDates": events}
 		}
 	);
 }
 
 var deleteCalendar = function(id){
 	return Calendar.deleteOne({"id": id});
+}
+
+var getCalendar = function(id){
+	return Calendar.find({"id": id}, {eventDates: 1, _id: 0})
 }
 
 var checkCalendar = function(friends, date, timeStart, timeEnd){
@@ -55,7 +59,7 @@ var checkCalendar = function(friends, date, timeStart, timeEnd){
 	return Calendar.find(
 		{
 			id: {$in: friends},
-			events: {
+			eventDates: {
 				$elemMatch: {
 					date: date,
 					events: {
@@ -135,5 +139,6 @@ module.exports = {
   updateCalendar : updateCalendar, // used --> works
   deleteCalendar : deleteCalendar,
   findCalendar : findCalendar,
+  getCalendar : getCalendar,
   checkCalendar : checkCalendar //used --> works
 };
