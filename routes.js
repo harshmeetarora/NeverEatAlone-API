@@ -213,13 +213,15 @@ router.route('/yelp')
         });
 });
 
-router.route('/sendinvite')
+router.route('/sendInvite')
     .post((req,res) => {
 
         var id = req.body.id1;
         var friendId = req.body.id2;
         var pushToken = model.getPushToken(id);
-        var messageBody = req.body.message;
+        var messageBody = req.body.data;
+
+        console.log(messageBody);
 
     // Check that all your push tokens appear to be valid Expo push tokens
     if (!Expo.isExpoPushToken(pushToken)) {
@@ -231,7 +233,7 @@ router.route('/sendinvite')
             to: pushToken,
             sound: 'default',
             body: 'This is a test notification',
-            data: { withSome: messageBody },
+            data: { withSome: messageBody},
         };
         //let tickets = [];
         (async () => {
