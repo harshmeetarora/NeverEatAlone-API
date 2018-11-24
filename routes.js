@@ -1,10 +1,11 @@
-import Expo from 'expo-server-sdk';
+//import Expo from 'expo-server-sdk';
 let express = require('express');
 let model = require('./Database/db.js');
 let yelpAPI = require ('./yelp-api.js');
 let Hashids = require('hashids');
 let geolib = require('geolib');
-let expo = new Expo();
+let expo = require ('expo-server-sdk');
+//let expo = new Expo();
 
 
 var hashids = new Hashids();
@@ -223,7 +224,6 @@ router.route('/sendinvite')
     // Check that all your push tokens appear to be valid Expo push tokens
     if (!Expo.isExpoPushToken(pushToken)) {
         console.error(`Push token ${pushToken} is not a valid Expo push token`);
-        continue;
     }
     
      // Construct a message (see https://docs.expo.io/versions/latest/guides/push-notifications.html)
