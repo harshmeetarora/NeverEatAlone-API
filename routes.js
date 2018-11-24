@@ -90,8 +90,7 @@ router.route('/getNotAvailableFriends')
 // tested --> works
 router.route('/getDistance')
     .get((req,res) => {
-        // var id = req.body.id1;
-        var id = 1;
+        var id = req.query.id;
         var friendsPromise = model.getFriends(id);
 
         friendsPromise.then(
@@ -118,7 +117,6 @@ router.route('/getDistance')
                                     {longitude: content2[i].coordinates.long, latitude: content2[i].coordinates.lat}
                                 );
                             distances[i] = {id: content2[i].id, distance: distance};
-                            console.log(distances[i]);
                         }
                         console.log("actual distances : " + distances);
                         res.send(distances);
