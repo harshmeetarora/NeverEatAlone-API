@@ -26,12 +26,9 @@ var findCalendar = function(id){
 	return Calendar.find({"id": id});
 }
 
-var addCalendar = function(id, calendar){
+var addCalendar = function(calendar){
 	console.log("addCalendar called");
-	return Calendar.create({
-		id: id,
-		eventDates: calendar
-	});
+	return Calendar.create(calendar);
 }
 
 var updateCalendar = function(id, events){ // TODO make sure this is called when new client is created

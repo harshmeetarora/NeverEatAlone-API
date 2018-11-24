@@ -21,11 +21,11 @@ router.route('/updateCalendar')
     .post((req,res) => {
         console.log("update calendar route called");
         var id = req.body.id;
-        var events = req.body.calendar;
+        var calendar = req.body;
         deleteCalendarPromise = model.deleteCalendar(id);
         deleteCalendarPromise.then(
             function(){
-                newCalendarPromise = model.addCalendar(id,events);
+                newCalendarPromise = model.addCalendar(calendar);
                 newCalendarPromise.then(
                     function(content){
                         res.send("sucess" + content);
