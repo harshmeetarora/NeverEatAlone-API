@@ -71,7 +71,7 @@ router.route('/getFriendsStatus')
                         content2.forEach(function(item, index){
                             unavailableFriends[index] = item.id;
                         });
-                        var returnJSON = formatFriendsAvailability(friends, unavailableFriends);
+                        var returnJSON = model.formatFriendsAvailability(friends, unavailableFriends);
                         res.send(returnJSON);
                     },
                     function (err2){
@@ -85,19 +85,6 @@ router.route('/getFriendsStatus')
         );
 });
 
-var formatFriendsAvailability = function(friends, unavailableFriends){
-    var returnObject = [];
-    var bool;
-    for (var i = 0; i < friends.length(); i++){ 
-        if (unavailableFriends.includes(friends[i])){
-            bool = false;
-        } else {
-            bool = true;
-        }
-        returnObject[i] = {id: friends[i], status: bool};
-    }
-    return returnObject;
-}
 
 
 //getDistance --> (id) --> [{id:id, distance:distance}]
