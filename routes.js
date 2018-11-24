@@ -74,12 +74,12 @@ router.route('/getFriendsStatus')
                         res.send(returnJSON);
                     },
                     function (err2){
-                        res.send(err2);
+                        res.send("err2 getFriendsStatus ": + err2);
                     }
                 );
             },
             function (err){
-                res.send(err);
+                res.send("err1 getFriendsStatus" + err);
             }
         );
 });
