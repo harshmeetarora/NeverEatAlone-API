@@ -79,7 +79,8 @@ var clientSchema = new mongoose.Schema({
  		lat: Number,
  		long: Number,
  	},
- 	friends: [{id: Number}]
+	 friends: [{id: Number}],
+	 pushToken: String
 });
 var Client = mongoose.model("Client", clientSchema);
 
@@ -120,6 +121,10 @@ var getFriends = function(id){
 	return Client.find({"id": id}, {"friends": 1, "_id": 0});
 }
 
+var getPushToken = function(id){
+	return Client.find({"id": id}, {"pushToken": 1, "_id": 0});
+}
+
 module.exports = {
   addNewClient : addNewClient, //used --> works
   findClient : findClient, //not needed
@@ -136,4 +141,5 @@ module.exports = {
   findCalendar : findCalendar,
   getCalendar : getCalendar,
   checkCalendar : checkCalendar, //used --> works
+  getPushToken : getPushToken
 };
