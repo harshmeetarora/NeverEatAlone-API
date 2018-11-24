@@ -41,6 +41,7 @@ router.route('/updateCalendar')
         );    
 });
 
+
 // friend availability get --> works
 router.route('/getFriendsStatus')
     .get((req,res) => {
