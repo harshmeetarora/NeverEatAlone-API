@@ -16,60 +16,84 @@ router.route('/test')
         res.send("Hello");
 });
 
+// //calendarPut --> WORKS
+// router.route('/updateCalendar')
+//     .post((req,res) => {
+//         console.log("update calendar route called");
+//         var id = req.body.id;
+//         var events = req.body.calendar;
+
+//         var calendarPromise = model.findCalendar(id); 
+//         calendarPromise.then(
+//             function(content){
+//                 if(content == {}){
+//                     addCalendarPromise = model.addCalendar(id, events);
+//                     addCalendarPromise.then(
+//                         function(content2){
+//                             res.send("sucess" + content2);
+//                         },
+//                         function(err2){
+//                             res.send("failure4: " + err2);
+//                         }
+//                     );
+//                 } else {
+//                     deleteCalendarPromise = model.deleteCalendar(id);
+//                     deleteCalendarPromise.then(
+//                         function(){
+//                             newCalendarPromise = model.addCalendar(id,events);
+//                             newCalendarPromise.then(
+//                                 function(content4){
+//                                     res.send("sucess" + content4);
+//                                 },
+//                                 function(err4){
+//                                     res.send("failure4: " + err4);
+//                                 }
+//                             );
+//                         },
+//                         function(err3){
+//                             res.send("failure3: " + err3);
+//                         }
+//                     );
+//                 }
+//             },
+//             function(err){
+//                 res.send("failure1: " + err);
+//             }
+//         );
+//         var calendarPromise = model.updateCalendar(id, events); 
+//         calendarPromise.then(
+//             function(content){
+//                 res.send("sucess: " + content);
+//             },
+//             function(err){
+//                 res.send("failure: " + err);
+//             }
+//         );
+// });
+
 //calendarPut --> WORKS
 router.route('/updateCalendar')
     .post((req,res) => {
         console.log("update calendar route called");
         var id = req.body.id;
         var events = req.body.calendar;
-
-        var calendarPromise = model.findCalendar(id); 
-        calendarPromise.then(
-            function(content){
-                if(content == {}){
-                    addCalendarPromise = model.addCalendar(id, events);
-                    addCalendarPromise.then(
-                        function(content2){
-                            res.send("sucess" + content2);
-                        },
-                        function(err2){
-                            res.send("failure4: " + err2);
-                        }
-                    );
-                } else {
-                    deleteCalendarPromise = model.deleteCalendar(id);
-                    deleteCalendarPromise.then(
-                        function(){
-                            newCalendarPromise = model.addCalendar(id,events);
-                            newCalendarPromise.then(
-                                function(content4){
-                                    res.send("sucess" + content4);
-                                },
-                                function(err4){
-                                    res.send("failure4: " + err4);
-                                }
-                            );
-                        },
-                        function(err3){
-                            res.send("failure3: " + err3);
-                        }
-                    );
-                }
+        deleteCalendarPromise = model.deleteCalendar(id);
+        deleteCalendarPromise.then(
+            function(){
+                newCalendarPromise = model.addCalendar(id,events);
+                newCalendarPromise.then(
+                    function(content){
+                        res.send("sucess" + content);
+                    },
+                    function(err2){
+                        res.send("failure2: " + err2);
+                    }
+                );
             },
-            function(err){
-                res.send("failure1: " + err);
+            function(err1){
+                res.send("failure1: " + err1);
             }
-        );
-        
-        var calendarPromise = model.updateCalendar(id, events); 
-        calendarPromise.then(
-            function(content){
-                res.send("sucess: " + content);
-            },
-            function(err){
-                res.send("failure: " + err);
-            }
-        );
+        );    
 });
 
 // friend availability get --> works
@@ -212,6 +236,56 @@ router.route('/idHash')
 //         );
 // });
 
+// // tested --> works
+// router.route('/addUser')
+//     .post((req,res) => {
+//         // TODO deal with user already exists case
+//         let user = req.body.user;
+//         let id = user.id;
+//         let calendar = req.body.calendar;
+//         console.log("add new client route called");
+        
+
+//         var clientPromise = model.findClientById(id);
+//         clientPromise.then(
+//             function(content){
+//                 if (content == {}){
+//                     console.log("New Client coming in");
+//                     var calendarPromise = model.addNewClient(user);
+//                     calendarPromise.then(
+//                         function(content2){
+//                             res.send("sucess1: " + content + content2);
+//                         },
+//                         function(err2){
+//                             res.send("error2 occured: " + err2);
+//                         }        
+//                     );
+//                 } else {
+//                     console.log("client beeing updated");
+//                     var deletePromise = model.deleteClientById(id);
+//                     deletePromise.then(
+//                         function(){
+//                             var newClientPromise = model.addNewClient(user);
+//                             newClientPromise.then(
+//                                 function(content3){
+//                                     res.send("sucess1: " + content + content3);
+//                                 },
+//                                 function(err3){
+//                                     res.send("error3 occured: " + err3);
+//                                 }        
+//                             );
+//                         },
+//                         function(err4){
+//                             res.send("error4 occured: " + err4);
+//                         }
+//                     );
+//                 }
+//             },
+//             function(err){
+//                 res.send("error1 occured: " + err);
+//             }
+//         );
+// });
 // tested --> works
 router.route('/addUser')
     .post((req,res) => {
@@ -219,50 +293,25 @@ router.route('/addUser')
         let user = req.body.user;
         let id = user.id;
         let calendar = req.body.calendar;
-        console.log("add new client route called");
-        
-
-        var clientPromise = model.findClientById(id);
-        clientPromise.then(
-            function(content){
-                if (content == {}){
-                    console.log("New Client coming in");
-                    var calendarPromise = model.addNewClient(user);
-                    calendarPromise.then(
-                        function(content2){
-                            res.send("sucess1: " + content + content2);
-                        },
-                        function(err2){
-                            res.send("error2 occured: " + err2);
-                        }        
-                    );
-                } else {
-                    console.log("client beeing updated");
-                    var deletePromise = model.deleteClientById(id);
-                    deletePromise.then(
-                        function(){
-                            var newClientPromise = model.addNewClient(user);
-                            newClientPromise.then(
-                                function(content3){
-                                    res.send("sucess1: " + content + content3);
-                                },
-                                function(err3){
-                                    res.send("error3 occured: " + err3);
-                                }        
-                            );
-                        },
-                        function(err4){
-                            res.send("error4 occured: " + err4);
-                        }
-                    );
-                }
+        console.log("add/update client route called");
+        var deletePromise = model.deleteClientById(id);
+        deletePromise.then(
+            function(){
+                var newClientPromise = model.addNewClient(user);
+                newClientPromise.then(
+                    function(content){
+                        res.send("sucess1: " + content);
+                    },
+                    function(err1){
+                        res.send("error1 occured: " + err1);
+                    }        
+                );
             },
-            function(err){
-                res.send("error1 occured: " + err);
+            function(err2){
+                res.send("error2 occured: " + err2);
             }
-        );
+        );  
 });
-
 
 // tested --> works
 router.route('/updateLocation')
