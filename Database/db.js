@@ -124,20 +124,6 @@ var getFriends = function(id){
 	return Client.find({"id": id}, {"friends": 1, "_id": 0});
 }
 
-var formatFriendsAvailability = function(friends, unavailableFriends){
-    var returnObject = [];
-    var bool;
-    for (var i = 0; i < friends.length(); i++){ 
-        if (unavailableFriends.includes(friends[i])){
-            bool = false;
-        } else {
-            bool = true;
-        }
-        returnObject[i] = {id: friends[i], status: bool};
-    }
-    return returnObject;
-}
-
 module.exports = {
   addNewClient : addNewClient, //used --> works
   findClient : findClient, //not needed
@@ -154,5 +140,4 @@ module.exports = {
   findCalendar : findCalendar,
   getCalendar : getCalendar,
   checkCalendar : checkCalendar, //used --> works
-  formatFriendsAvailability : formatFriendsAvailability
 };
