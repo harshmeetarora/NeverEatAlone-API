@@ -46,16 +46,16 @@ router.route('/updateCalendar')
 });
 
 // friend availability get --> works
-router.route('/getNotAvailableFriends')
+router.route('/getFriendsStatus')
     .get((req,res) => {
         var id = req.body.id;
         // var id = 1;
         var d = new Date();
         var date = d.toLocaleDateString();
-        var hours = d.getUTCHours() - 8; //UTC - adjustment for westcoast canada
+        var hours = (d.getUTCHours() + 16)%24; //UTC - adjustment for westcoast canada
         var minutes = d.getMinutes() / 60; // 60 minutes in an hour 
         var time = hours + minutes; // time as a float 0-24
-        console.log(hours);
+        console.log("get friends status called");
 
         var friendsPromise = model.getFriends(id);
 
@@ -75,27 +75,27 @@ router.route('/getNotAvailableFriends')
                         content2.forEach(function(item, index){
                             unavailableFriends[index] = item.id;
                         });
-                        var returnJSON = {friends:friends, unavailableFriends:unavailableFriends};
+                        var returnJSON = formatFriendsAvailability(friends, unavailableFriends);
                         res.send(returnJSON);
                     },
                     function (err2){
-                        res.send(err2);
+                        res.send("err2 getFriendsStatus :" + err2);
                     }
                 );
             },
             function (err){
-                res.send(err);
+                res.send("err1 getFriendsStatus" + err);
             }
         );
 });
+
 
 
 //getDistance --> (id) --> [{id:id, distance:distance}]
 // tested --> works
 router.route('/getDistance')
     .get((req,res) => {
-        // var id = req.body.id1;
-        var id = 1;
+        var id = req.body.id;
         var friendsPromise = model.getFriends(id);
 
         friendsPromise.then(
@@ -137,6 +137,20 @@ router.route('/getDistance')
             }
         );
 });
+
+var formatFriendsAvailability = function(friends, unavailableFriends){
+    var returnObject = [];
+    var bool;
+    for (var i = 0; i < friends.length; i++){ 
+        if (unavailableFriends.includes(friends[i])){
+            bool = false;
+        } else {
+            bool = true;
+        }
+        returnObject[i] = {id: friends[i], status: bool};
+    }
+    return returnObject;
+}
 
 //hash id
 router.route('/idHash')
