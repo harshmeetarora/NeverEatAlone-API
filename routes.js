@@ -1,10 +1,11 @@
-import Expo from 'expo-server-sdk';
+//import Expo from 'expo-server-sdk';
 let express = require('express');
 let model = require('./Database/db.js');
 let yelpAPI = require ('./yelp-api.js');
 let Hashids = require('hashids');
 let geolib = require('geolib');
 //const { Expo } = require('expo-server-sdk');
+//const Expo = require('expo-server-sdk')
 let expo = new Expo();
 
 
