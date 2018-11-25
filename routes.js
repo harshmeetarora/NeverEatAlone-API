@@ -64,7 +64,7 @@ router.route('/getCalendar')
 // friend availability get --> works
 router.route('/getFriendsStatus')
     .get((req,res) => {
-        var id = req.body.id;
+        var id = req.query.id;
         // var id = 1;
         var d = new Date();
         var date = d.toLocaleDateString();
@@ -111,7 +111,7 @@ router.route('/getFriendsStatus')
 // tested --> works
 router.route('/getDistance')
     .get((req,res) => {
-        var id = req.body.id;
+        var id = req.query.id;
         var friendsPromise = model.getFriends(id);
 
         friendsPromise.then(
