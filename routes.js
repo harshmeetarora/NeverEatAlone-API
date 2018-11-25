@@ -252,7 +252,7 @@ router.route('/sendInvite')
         var messageBody = req.body.data;
 
         console.log(messageBody);
-        console.log(JSON.stringify(pushToken));
+        console.log(pushToken);
 
     // Check that all your push tokens appear to be valid Expo push tokens
     if (!Expo.isExpoPushToken(pushToken)) {
