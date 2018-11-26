@@ -253,9 +253,9 @@ router.route('/sendInvite')
         var pushTokenPromise = model.getPushToken(friendId);
         pushTokenPromise.then(
             function(content){
-                pushToken = content;
+                pushToken = content[0].pushToken;
                 console.log(pushToken);
-                res.send({'Token' : content});
+                res.send({'Token' : pushToken});
                 // Check that all your push tokens appear to be valid Expo push tokens
                     // Check that all your push tokens appear to be valid Expo push tokens
             if (!Expo.isExpoPushToken(pushToken)) {
