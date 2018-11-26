@@ -90,7 +90,7 @@ var findClient = function(clientInfo){
 }
 
 var findClientById = function(id){
-	return Client.find({"id": id});
+	return Client.find({"id": "104073207253345"});
 }
 
 
