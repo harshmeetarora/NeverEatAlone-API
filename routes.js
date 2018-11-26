@@ -48,7 +48,7 @@ router.route('/updateCalendar')
 
 router.route('/getCalendar')
      .get((req,res) => {
-         req.query.id;
+         id = req.query.id;
          calendarPromise = module.getCalendar(id);
          calendarPromise.then(
              function(content){
@@ -82,12 +82,9 @@ router.route('/getFriendsStatus')
                 content[0].friends.forEach(function(item, index){
                     friends[index] = item.id;
                 });
-                console.log(friends);
                 var calendarPromise = model.checkCalendar(friends, date, time, (time+0.5)); //TODO get rid of magic number
                 calendarPromise.then(
                     function(content2){
-                        console.log("unavailable friends: ");
-                        console.log(content2);
                         var unavailableFriends = [];
                         content2.forEach(function(item, index){
                             unavailableFriends[index] = item.id;
@@ -139,9 +136,8 @@ router.route('/getDistance')
                                     {longitude: content2[i].coordinates.long, latitude: content2[i].coordinates.lat}
                                 );
                             distances[i] = {id: content2[i].id, distance: distance};
-                            console.log(distances[i]);
+                            
                         }
-                        console.log("actual distances : " + distances);
                         res.send(distances);
                     },
                     function (err2){

@@ -25,7 +25,7 @@ var calendarSchema = new mongoose.Schema({
 var Calendar = mongoose.model("Calendar", calendarSchema);
 
 var findCalendar = function(id){
-	return Calendar.find({"id": id});
+	return Calendar.find({"id": id}, {id: 0, _id: 0, eventDates: 1});
 }
 
 var addCalendar = function(calendar){
