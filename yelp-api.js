@@ -13,7 +13,7 @@ var getYelpRecommendation = function(latitude, longitude, radius, keyword){
     return new Promise(function (resolve, reject) {
         client.search(searchRequest).then(response => {
             prettyJson = JSON.stringify(response, null, 4);
-            console.log(prettyJson);
+            //console.log(prettyJson);
             resolve(prettyJson);
         }).catch(e => {
             console.log(e);
