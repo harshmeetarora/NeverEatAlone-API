@@ -135,7 +135,6 @@ module.exports = {
   addCalendar : addCalendar, // used --> works
   updateCalendar : updateCalendar, // used --> works
   deleteCalendar : deleteCalendar,
-  findCalendar : findCalendar,
   getCalendar : getCalendar,
   checkCalendar : checkCalendar, //used --> works
   getPushToken : getPushToken
