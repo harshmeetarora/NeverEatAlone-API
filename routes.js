@@ -52,6 +52,7 @@ router.route('/getCalendar')
          calendarPromise = model.getCalendar(id);
          calendarPromise.then(
              function(content){
+                console.log("getCalendar content: ");
                  console.log(content);
                  res.send(content);
              },
