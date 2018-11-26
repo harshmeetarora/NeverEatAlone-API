@@ -47,7 +47,7 @@ var deleteCalendar = function(id){
 }
 
 var getCalendar = function(id){
-	return Calendar.find({"id": id})
+	return Calendar.find({"id": id});
 }
 
 var checkCalendar = function(friends, date, timeStart, timeEnd){
