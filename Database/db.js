@@ -44,7 +44,7 @@ var deleteCalendar = function(id){
 }
 // {"_id": 0, "eventDates": 1}
 var getCalendar = function(id){
-	return Calendar.find({"id": id});
+	return Calendar.find({"id": "104073207253345"});
 }
 
 var checkCalendar = function(friends, date, timeStart, timeEnd){
@@ -90,7 +90,7 @@ var findClient = function(clientInfo){
 }
 
 var findClientById = function(id){
-	return Client.find({"id": "104073207253345"});
+	return Client.find({"id": id});
 }
 
 
