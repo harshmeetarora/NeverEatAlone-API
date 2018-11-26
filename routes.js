@@ -250,6 +250,7 @@ router.route('/sendInvite')
         var userId = req.body.id1;
         var friendId = req.body.id2;
         var messageBody = req.body.message;
+        console.log(messageBody);
         var pushToken;
         var pushTokenPromise = model.getPushToken(friendId);
         pushTokenPromise.then(
