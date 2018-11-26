@@ -51,6 +51,7 @@ router.route('/getCalendar')
         console.log("getCalendar called");
          id = req.query.id;
          console.log("id is : " + id);
+         console.log(typeof(id));
          calendarPromise = model.getCalendar(id);
          calendarPromise.then(
              function(content){
