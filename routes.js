@@ -244,13 +244,21 @@ router.route('/yelp')
 router.route('/sendInvite')
     .post((req,res) => {
 
-        var id = req.body.id1;
+        var userId = req.body.id1;
         var friendId = req.body.id2;
-        var pushToken = model.getPushToken(id);
+        var pushToken;
+        var pushTokenPromise = model.getPushToken(friendId);
+        pushTokenPromise.then(
+            function(content){
+                pushToken = content;
+                console.log(pushToken);
+                res.send({'Token' : content});
+
+            });
         var messageBody = req.body.data;
 
         console.log(messageBody);
-        console.log(pushToken);
+        
 
     // Check that all your push tokens appear to be valid Expo push tokens
     if (!Expo.isExpoPushToken(pushToken)) {
@@ -271,8 +279,8 @@ router.route('/sendInvite')
           // time, which nicely spreads the load out over time:
         
             try {
-              let ticketChunk = await expo.sendPushNotificationsAsync(message);
-              console.log(ticketChunk);
+              let ticket = await expo.sendPushNotificationsAsync(message);
+              console.log(ticket);
               //tickets.push(ticketChunk);
               // NOTE: If a ticket contains an error code in ticket.details.error, you
               // must handle it appropriately. The error codes are listed in the Expo
