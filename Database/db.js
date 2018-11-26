@@ -42,9 +42,9 @@ var updateCalendar = function(id, events){ // TODO make sure this is called when
 var deleteCalendar = function(id){
 	return Calendar.deleteOne({"id": id});
 }
-
+// {"_id": 0, "eventDates": 1}
 var getCalendar = function(id){
-	return Calendar.find({"id": id}, {"_id": 0, "eventDates": 1});
+	return Calendar.find({"id": id});
 }
 
 var checkCalendar = function(friends, date, timeStart, timeEnd){
