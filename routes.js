@@ -49,7 +49,7 @@ router.route('/updateCalendar')
 router.route('/getCalendar')
      .get((req,res) => {
          id = req.query.id;
-         calendarPromise = module.getCalendar(id);
+         calendarPromise = model.getCalendar(id);
          calendarPromise.then(
              function(content){
                  console.log(content);
