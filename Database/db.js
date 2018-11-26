@@ -30,7 +30,7 @@ var addCalendar = function(calendar){
 	return Calendar.create(calendar);
 }
 
-var updateCalendar = function(id, events){ // TODO make sure this is called when new client is created
+var updateCalendar = function(id, events){ 
 	return Calendar.update(
 		{"id": id},
 		{ $set: 
