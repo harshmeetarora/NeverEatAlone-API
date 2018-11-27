@@ -89,7 +89,7 @@ router.route('/getFriendsStatus')
                 var calendarPromise = model.checkCalendar(friends, date, time, (time+0.5)); //TODO get rid of magic number
                 calendarPromise.then(
                     function(content2){
-                        console.log("getFriendsStatus: ");
+                        console.log("getFriendsStatus for id : " +  id);
                         console.log("time: " + time);
                         console.log("date : " + date);
                         console.log("friends : ");
