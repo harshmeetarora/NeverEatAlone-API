@@ -100,8 +100,9 @@ router.route('/getFriendsStatus')
                         content2.forEach(function(item, index){
                             unavailableFriends[index] = item.id;
                         });
-                        console.log(returnJSON);
                         var returnJSON = formatFriendsAvailability(friends, unavailableFriends);
+
+                        console.log(returnJSON);
                         res.send(returnJSON);
                     },
                     function (err2){
@@ -174,6 +175,7 @@ var formatFriendsAvailability = function(friends, unavailableFriends){
         }
         returnObject[i] = {id: friends[i], status: bool};
     }
+    console.log(returnObject);
     return returnObject;
 }
 
