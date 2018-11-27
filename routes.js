@@ -258,7 +258,8 @@ router.route('/sendInvite')
                 var friendPromise = model.findClientById(friendId);
                 friendPromise.then(
                     function(content){
-                        var friendName = content.name;
+                        var nameFriend = content.name;
+                        console.log(nameFriend);
                     }
                 );
                 res.send({'Token' : pushToken});
@@ -274,7 +275,7 @@ router.route('/sendInvite')
                     sound: 'default',
                     body: 'This is a test notification',
                     data: { withSome: messageBody,
-                            friendName: friendName,
+                            friendName: nameFriend,
                             friendId: friendId
                     },
                 };
