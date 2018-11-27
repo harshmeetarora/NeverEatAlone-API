@@ -48,6 +48,13 @@ var getCalendar = function(id){
 }
 
 var checkCalendar = function(friends, date, timeStart, timeEnd){
+
+	console.log("in checkCalendar: ");
+	console.log(friends);
+	console.log(date);
+	console.log(timeStart);
+	console.log(timeEnd);
+
 	return Calendar.find(
 		{
 			id: {$in: friends},
