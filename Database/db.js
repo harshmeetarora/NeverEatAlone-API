@@ -84,7 +84,7 @@ var clientSchema = new mongoose.Schema({
  		lat: Number,
  		long: Number,
  	},
-	 friends: [{id: Number}],
+	 friends: [{id: String}],
 	 pushToken: String
 });
 var Client = mongoose.model("Client", clientSchema);
