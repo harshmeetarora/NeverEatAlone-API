@@ -53,8 +53,6 @@ router.route('/getCalendar')
          calendarPromise = model.getCalendar(id);
          calendarPromise.then(
              function(content){
-                console.log("getCalendar content: ");
-                 console.log(content);
                  res.send(content);
              },
              function(err){
@@ -89,20 +87,11 @@ router.route('/getFriendsStatus')
                 var calendarPromise = model.checkCalendar(friends, date, time, (time+0.5)); //TODO get rid of magic number
                 calendarPromise.then(
                     function(content2){
-                        console.log("getFriendsStatus for id : " +  id);
-                        console.log("time: " + time);
-                        console.log("date : " + date);
-                        console.log("friends : ");
-                        console.log(friends);
-                        console.log("content2: ");
-                        console.log(content2);
                         var unavailableFriends = [];
                         content2.forEach(function(item, index){
                             unavailableFriends[index] = item.id;
                         });
                         var returnJSON = formatFriendsAvailability(friends, unavailableFriends);
-
-                        console.log(returnJSON);
                         res.send(returnJSON);
                     },
                     function (err2){
@@ -167,9 +156,7 @@ router.route('/getDistance')
 var formatFriendsAvailability = function(friends, unavailableFriends){
     var returnObject = [];
     var bool;
-    console.log(friends);
-    console.log(unavailableFriends);
-    
+
     for (var i = 0; i < friends.length; i++){ 
         if (unavailableFriends.includes(friends[i])){
             bool = false;
@@ -178,7 +165,6 @@ var formatFriendsAvailability = function(friends, unavailableFriends){
         }
         returnObject[i] = {id: friends[i], status: bool};
     }
-    console.log(returnObject);
     return returnObject;
 }
 
