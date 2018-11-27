@@ -258,7 +258,7 @@ router.route('/sendInvite')
                 var friendPromise = model.findClientById(friendId);
                 friendPromise.then(
                     function(content){
-                        var nameFriend = content.name;
+                        var nameFriend = content[0].name;
                         console.log(nameFriend);
                     }
                 );
