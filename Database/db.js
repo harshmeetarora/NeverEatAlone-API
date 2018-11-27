@@ -13,6 +13,7 @@ var calendarSchema = new mongoose.Schema({
 	eventDates: [{
         date: String,
         events: [{
+			editable: Boolean,
             key: Number,
             title: String,
             startNum: Number,

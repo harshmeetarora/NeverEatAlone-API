@@ -167,6 +167,9 @@ router.route('/getDistance')
 var formatFriendsAvailability = function(friends, unavailableFriends){
     var returnObject = [];
     var bool;
+    console.log(friends);
+    console.log(unavailableFriends);
+    
     for (var i = 0; i < friends.length; i++){ 
         if (unavailableFriends.includes(friends[i])){
             bool = false;
