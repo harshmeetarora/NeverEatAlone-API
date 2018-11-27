@@ -255,13 +255,6 @@ router.route('/sendInvite')
             function(content){
                 pushToken = content[0].pushToken;
                 console.log(pushToken);
-                var friendPromise = model.findClientById(friendId);
-                friendPromise.then(
-                    function(content){
-                        var nameFriend = content[0].name;
-                        console.log(nameFriend);
-                    }
-                );
                 res.send({'Token' : pushToken});
                 // Check that all your push tokens appear to be valid Expo push tokens
                     // Check that all your push tokens appear to be valid Expo push tokens
@@ -274,10 +267,7 @@ router.route('/sendInvite')
                     to: pushToken,
                     sound: 'default',
                     body: 'This is a test notification',
-                    data: { withSome: messageBody,
-                            friendName: nameFriend,
-                            friendId: friendId
-                    },
+                    data: { withSome: messageBody}
                 };
                 //let tickets = [];
                 (async () => {
