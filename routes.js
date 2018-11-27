@@ -70,7 +70,7 @@ router.route('/getFriendsStatus')
         var id = req.query.id;
         // var id = 1;
         var d = new Date();
-        var date = d.toLocaleDateString('ca-Vanc');
+        var date = d.toLocaleDateString({ timezone: 'America/Vancouver' });
         var hours = (d.getUTCHours() + 16)%24; //UTC - adjustment for westcoast canada
         var minutes = d.getMinutes() / 60; // 60 minutes in an hour 
         var time = hours + minutes; // time as a float 0-24
