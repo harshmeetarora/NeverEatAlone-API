@@ -8,15 +8,8 @@ let expo = new Expo();
 
 let router  = express.Router();
 
-router.route('/test')
-    .get((req,res) => {
-        console.log("check");
-        res.send("Hello");
-});
-
 router.route('/updateCalendar')
     .post((req,res) => {
-        console.log("update calendar route called");
         var id = req.body.id;
         var calendar = req.body;
         var deleteCalendarPromise = model.deleteCalendar(id);
@@ -36,21 +29,21 @@ router.route('/updateCalendar')
                 res.send("failure1: " + err1);
             }
         );    
-});
+    }
+);
 
 router.route('/getCalendar')
      .get((req,res) => {
-        console.log("getCalendar called");
-         id = req.query.id;
-         var calendarPromise = model.getCalendar(id);
-         calendarPromise.then(
-             function(content){
-                 res.send(content);
-             },
-             function(err){
-                 res.send("error get calendar: " + err);
-             }
-         );
+        var id = req.query.id;
+        var calendarPromise = model.getCalendar(id);
+        calendarPromise.then(
+            function(content){
+                res.send(content);
+            },
+            function(err){
+                res.send("error get calendar: " + err);
+            }
+        );
      }
  );
 
@@ -64,10 +57,8 @@ router.route('/getFriendsStatus')
         var hours = (d.getUTCHours() + 16)%24; //UTC - adjustment for westcoast canada
         var minutes = d.getMinutes() / 60; // 60 minutes in an hour 
         var time = hours + minutes; // time as a float 0-24
-        console.log("get friends status called");
 
         var friendsPromise = model.getFriends(id);
-
         friendsPromise.then(
             function(content){
                 var friends = [];
@@ -93,7 +84,8 @@ router.route('/getFriendsStatus')
                 res.send("err1 getFriendsStatus" + err);
             }
         );
-});
+    }
+);
 
 
 var formatFriendsAvailability = function(friends, unavailableFriends){
@@ -126,7 +118,6 @@ router.route('/getDistance')
                 var locationPromise = model.getLocations(friends);
                 locationPromise.then(
                     function (content2){
-                        console.log("got locations");
                         for(var i = 0; i < content2.length; i++){
                             if (content2[i].id == id)
                                 break;
@@ -153,7 +144,8 @@ router.route('/getDistance')
                 res.send(err);
             }
         );
-});
+    }
+);
 
 router.route('/addUser')
     .post((req,res) => {
@@ -176,7 +168,8 @@ router.route('/addUser')
                 res.send("error2 occured: " + err2);
             }
         );  
-});
+    }
+);
 
 router.route('/deleteUser')
     .delete((req,res) => {
@@ -190,7 +183,8 @@ router.route('/deleteUser')
                 res.send("error2 occured: " + err);
             }
         );  
-});
+    }
+);
 
 router.route('/updateLocation')
     .put((req,res) => {
@@ -202,7 +196,8 @@ router.route('/updateLocation')
         }, function(err) {
             res.send("updating location yielded error: " + err)
         });
-});
+    }
+);
 
 
 router.route('/yelp')
@@ -219,7 +214,8 @@ router.route('/yelp')
         function(err){
             res.send("error at yelp: " + err);
         });
-});
+    }
+);
 
 router.route('/sendInvite')
     .post((req,res) => {
@@ -250,7 +246,8 @@ router.route('/sendInvite')
                     }
                 })();
         });
-});
+    }
+);
 
 
 
