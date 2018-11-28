@@ -172,7 +172,7 @@ router.route('/addUser')
 
 router.route('/deleteUser')
     .delete((req,res) => {
-        let id = req.user.id;
+        let id = req.body.id;
         var deletePromise = model.deleteClientById(id);
         deletePromise.then(
             function(content){
