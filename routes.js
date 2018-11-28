@@ -268,7 +268,7 @@ router.route('/sendInvite')
                 let message = {
                     to: pushToken,
                     sound: 'default',
-                    body: '${friendName} does not want to eat alone!',
+                    body: `${friendName} does not want to eat alone!`,
                     data: { withSome: messageBody}
                 };
                 //let tickets = [];
