@@ -2,6 +2,47 @@
 var expect = require("chai").expect;
 var model = require('./Database/db.js');
 
+// test Objects
+var clientObject1 = {
+	id : "1",
+	name: "Laurenz",
+ 	email: "notimportant",
+ 	coordinates: {
+ 		lat: 47.2606,
+ 		long: 120.2460,
+ 	},
+ 	friends: [{id: "2"}, {id: "3"}]
+}
+var newLocation1 = {
+    lat: 49.2606,
+    long: 123.2460
+}
+
+var calendarObject2 = { id: "1",
+eventDates: [
+    {
+        id: "1",
+        date: "11/17/2018",
+        events: [
+            {
+                key: 1,
+                title: "something",
+                startNum: 12.5,
+                endNum: 17,
+            }
+        ]
+    },{
+        date: "11/16/2018",
+        events: [
+            {
+                key: 3,
+                title: "something",
+                startTime: 18,
+                endTime: 19,
+            }
+        ]
+    }
+] };
 
 describe("addClient()", function(){
     it("should add and remove client", function(){
@@ -62,44 +103,4 @@ describe("getFriends()", function(){
 });
 
 
-// test Objects
-var clientObject1 = {
-	id : "1",
-	name: "Laurenz",
- 	email: "notimportant",
- 	coordinates: {
- 		lat: 47.2606,
- 		long: 120.2460,
- 	},
- 	friends: [{id: "2"}, {id: "3"}]
-}
-var newLocation1 = {
-    lat: 49.2606,
-    long: 123.2460
-}
 
-var calendarObject2 = { id: "1",
-eventDates: [
-    {
-        id: "1",
-        date: "11/17/2018",
-        events: [
-            {
-                key: 1,
-                title: "something",
-                startNum: 12.5,
-                endNum: 17,
-            }
-        ]
-    },{
-        date: "11/16/2018",
-        events: [
-            {
-                key: 3,
-                title: "something",
-                startTime: 18,
-                endTime: 19,
-            }
-        ]
-    }
-] };
