@@ -19,7 +19,7 @@ router.route('/updateCalendar')
         console.log("update calendar route called");
         var id = req.body.id;
         var calendar = req.body;
-        deleteCalendarPromise = model.deleteCalendar(id);
+        var deleteCalendarPromise = model.deleteCalendar(id);
         deleteCalendarPromise.then(
             function(){
                 newCalendarPromise = model.addCalendar(calendar);
@@ -42,7 +42,7 @@ router.route('/getCalendar')
      .get((req,res) => {
         console.log("getCalendar called");
          id = req.query.id;
-         calendarPromise = model.getCalendar(id);
+         var calendarPromise = model.getCalendar(id);
          calendarPromise.then(
              function(content){
                  res.send(content);
