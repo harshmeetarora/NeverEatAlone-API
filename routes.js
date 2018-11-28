@@ -47,6 +47,21 @@ router.route('/getCalendar')
      }
  );
 
+ var formatFriendsAvailability = function(friends, unavailableFriends){
+    var returnObject = [];
+    var bool;
+
+    for (var i = 0; i < friends.length; i++){ 
+        if (unavailableFriends.includes(friends[i])){
+            bool = false;
+        } else {
+            bool = true;
+        }
+        returnObject[i] = {id: friends[i], status: bool};
+    }
+    return returnObject;
+}
+
 router.route('/getFriendsStatus')
     .get((req,res) => {
         var id = req.query.id;
@@ -86,22 +101,6 @@ router.route('/getFriendsStatus')
         );
     }
 );
-
-
-var formatFriendsAvailability = function(friends, unavailableFriends){
-    var returnObject = [];
-    var bool;
-
-    for (var i = 0; i < friends.length; i++){ 
-        if (unavailableFriends.includes(friends[i])){
-            bool = false;
-        } else {
-            bool = true;
-        }
-        returnObject[i] = {id: friends[i], status: bool};
-    }
-    return returnObject;
-}
 
 router.route('/getDistance')
     .get((req,res) => {
