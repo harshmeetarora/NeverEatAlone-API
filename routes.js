@@ -57,7 +57,6 @@ router.route('/getCalendar')
 router.route('/getFriendsStatus')
     .get((req,res) => {
         var id = req.query.id;
-        // var id = 1;
         var d = new Date();
         var date = d.toLocaleDateString('en-US', {
             timeZone: 'America/Vancouver'

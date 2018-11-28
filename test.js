@@ -7,6 +7,7 @@ var model = require('./Database/db.js');
 describe("addClient()", function(){
     it("should add and remove client", function(){
         return returnPromise = model.addNewClient(clientObject1).then(function(content){
+            model.deleteClientById(clientObject1.id);
             expect(content.name).to.equal("Laurenz");
         }, function(err){
             console.log(err);
@@ -17,8 +18,10 @@ describe("addClient()", function(){
 
 describe("addCalendar()", function(){
     it("should add calendar object", function(){
-        return returnPromise = model.addCalendar(4, calendarObject2).then(function(content){
-            expect(content.id).to.equal(4);
+        return returnPromise = model.addCalendar(calendarObject2).then(
+        function(content){
+            model.deleteCalendar(calendarObject2.id);
+            expect(content.id).to.equal("1");
         }, function(err){
             console.log(err);
             expect(err.name).to.equal("Laurenz");
@@ -39,7 +42,7 @@ describe("getLocations()", function(){
 
 describe("updateLocations()", function(){
     it("should update Location", function(){
-        return returnPromise = model.updateLocation(1, newLocation1).then(function(content){
+        return returnPromise = model.updateLocation("101596347503975", newLocation1).then(function(content){
             expect(content.n).to.equal(1);
         }, function(err){
             console.log(err);
@@ -50,8 +53,8 @@ describe("updateLocations()", function(){
 
 describe("getFriends()", function(){
     it("should get Friend array", function(){
-        return returnPromise = model.getFriends(1).then(function(content){
-            expect(content[0].friends[0]).to.include({id: 2});
+        return returnPromise = model.getFriends("101596347503975").then(function(content){
+            expect(content[0].friends[0]).to.include({id: "104073207253345"});
         }, function(err){
             console.log(err);
             expect(err.name).to.equal("Laurenz");
@@ -62,63 +65,31 @@ describe("getFriends()", function(){
 
 // test Objects
 var clientObject1 = {
-	id : 1,
+	id : "1",
 	name: "Laurenz",
  	email: "notimportant",
  	coordinates: {
  		lat: 47.2606,
  		long: 120.2460,
  	},
- 	friends: [{id: 2}, {id: 3}]
+ 	friends: [{id: "2"}, {id: "3"}]
 }
 var newLocation1 = {
     lat: 49.2606,
     long: 123.2460
 }
 
-var clientObject2 = {
-	id : 2,
-	name: "Harsh",
- 	email:  "notimportant",
- 	coordinates: {
- 		lat: 49.2827,
- 		long: 123.1207,
- 	},
- 	friends: [{id: 1}]
-}
-
-var clientObject3 = {
-	id : 3,
-	name: "Matt",
- 	email:  "notimportant",
- 	coordinates: {
- 		lat: 49.1666,
- 		long: 123.1336,
- 	},
- 	friends: [{id: 1}]
-}
-
-var calendarObject2 = [
+var calendarObject2 = { id: "1",
+eventDates: [
     {
+        id: "1",
         date: "11/17/2018",
         events: [
             {
                 key: 1,
                 title: "something",
-                startTime: 12.5,
-                endTime: 17,
-            },
-            {
-                key: 2,
-                title: "something",
-                startTime: 21,
-                endTime: 22,
-            },
-            {
-                key: 3,
-                title: "something",
-                startTime: 18,
-                endTime: 19,
+                startNum: 12.5,
+                endNum: 17,
             }
         ]
     },{
@@ -132,18 +103,4 @@ var calendarObject2 = [
             }
         ]
     }
-];
-
-var calendarObject3 =  [
-    {
-        date: "11/16/2018",
-        events: [
-            {
-                key: 3,
-                title: "something",
-                startTime: 18,
-                endTime: 19,
-            }
-        ]
-    }
-];
+] };
