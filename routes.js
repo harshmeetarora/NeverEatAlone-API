@@ -232,7 +232,7 @@ router.route('/sendInvite')
                 }
                 var friendName= req.body.data.friendName;
                 var notificationBody = `${friendName} does not want to eat alone!`;
-                if (!req.body.data.response){
+                if (req.body.data.response){
                     if(!req.body.data.accept){
                         notificationBody = `${friendName} did not accept your request :(`;
                     }
