@@ -262,12 +262,13 @@ router.route('/sendInvite')
             if (!Expo.isExpoPushToken(pushToken)) {
                 console.error(`Push token ${pushToken} is not a valid Expo push token`);
             }
+            var friendName= req.body.data.friendName;
             
             // Construct a message (see https://docs.expo.io/versions/latest/guides/push-notifications.html)
                 let message = {
                     to: pushToken,
                     sound: 'default',
-                    body: 'This is a test notification',
+                    body: '${friendName} does not want to eat alone!',
                     data: { withSome: messageBody}
                 };
                 //let tickets = [];
