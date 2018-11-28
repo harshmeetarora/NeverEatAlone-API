@@ -43,7 +43,7 @@ var updateCalendar = function(id, events){
 var deleteCalendar = function(id){
 	return Calendar.deleteOne({"id": id});
 }
-// {"_id": 0, "eventDates": 1}
+
 var getCalendar = function(id){
 	return Calendar.find({"id": id}, {"_id": 0, "eventDates": 1});
 }
@@ -74,7 +74,6 @@ var checkCalendar = function(friends, date, timeStart, timeEnd){
 		{id: 1, _id: 0}
 	);
 }
-/////////////////////////////////////////////////////////////////////////////
 
 var clientSchema = new mongoose.Schema({
 	id : String,
@@ -131,19 +130,19 @@ var getPushToken = function(id){
 }
 
 module.exports = {
-  addNewClient : addNewClient, //used --> works
-  findClient : findClient, //not needed
-  findClientById : findClientById, //will be used later
+  addNewClient : addNewClient,
+  findClient : findClient,
+  findClientById : findClientById,
   clearDatabase :  clearDatabase,
   deleteClient : deleteClient, 
   deleteClientById : deleteClientById,
-  getLocations : getLocations, //used --> works
-  updateLocation : updateLocation,  //used --> works
-  getFriends : getFriends, // used --> works
-  addCalendar : addCalendar, // used --> works
-  updateCalendar : updateCalendar, // used --> works
+  getLocations : getLocations,
+  updateLocation : updateLocation,
+  getFriends : getFriends,
+  addCalendar : addCalendar,
+  updateCalendar : updateCalendar,
   deleteCalendar : deleteCalendar,
   getCalendar : getCalendar,
-  checkCalendar : checkCalendar, //used --> works
+  checkCalendar : checkCalendar, 
   getPushToken : getPushToken
 };

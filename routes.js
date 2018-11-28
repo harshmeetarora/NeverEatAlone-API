@@ -1,27 +1,19 @@
-//import Expo from 'expo-server-sdk';
 let express = require('express');
 let model = require('./Database/db.js');
 let yelpAPI = require ('./yelp-api.js');
 let Hashids = require('hashids');
 let geolib = require('geolib');
 const { Expo } = require('expo-server-sdk');
-//const Expo = require('expo-server-sdk')
 let expo = new Expo();
-
-
-var hashids = new Hashids();
 
 let router  = express.Router();
 
-
-//test 
 router.route('/test')
     .get((req,res) => {
         console.log("check");
         res.send("Hello");
 });
 
-//calendarPut --> WORKS
 router.route('/updateCalendar')
     .post((req,res) => {
         console.log("update calendar route called");
@@ -62,7 +54,6 @@ router.route('/getCalendar')
      }
  );
 
-// friend availability get --> works
 router.route('/getFriendsStatus')
     .get((req,res) => {
         var id = req.query.id;
@@ -121,8 +112,6 @@ var formatFriendsAvailability = function(friends, unavailableFriends){
     return returnObject;
 }
 
-//getDistance --> (id) --> [{id:id, distance:distance}]
-// tested --> works
 router.route('/getDistance')
     .get((req,res) => {
         var id = req.query.id;
@@ -167,26 +156,10 @@ router.route('/getDistance')
         );
 });
 
-//hash id
-router.route('/idHash')
-    .post((req,res) => {
-        var fbID = req.body.id;
-        var hashId = hashids.encode(fbID);
-        console.log("hashId: " + hashId);
-        res.send(JSON.stringify({
-            'id' : hashId
-    }));
-});
-
-// tested --> works
 router.route('/addUser')
     .post((req,res) => {
-        // TODO deal with user already exists case
         let user = req.body.user;
         let id = user.id;
-        let pushToken = user.pushToken;
-
-        console.log("add/update client route called");
         var deletePromise = model.deleteClientById(id);
         deletePromise.then(
             function(){
@@ -206,13 +179,24 @@ router.route('/addUser')
         );  
 });
 
-// tested --> works
+router.route('/deleteUser')
+    .delete((req,res) => {
+        let id = req.user.id;
+        var deletePromise = model.deleteClientById(id);
+        deletePromise.then(
+            function(content){
+                res.send("sucess1: " + content);
+            },
+            function(err){
+                res.send("error2 occured: " + err);
+            }
+        );  
+});
+
 router.route('/updateLocation')
     .put((req,res) => {
-    // .get((req,res) => {
         let id = req.body.id;
         let location = req.body.location;
-        
         var promise = model.updateLocation(id, location);
         promise.then(function(content) {
             res.send("location updated: " + content);
@@ -221,31 +205,25 @@ router.route('/updateLocation')
         });
 });
 
-///yelp api call
-// tested --> works
+
 router.route('/yelp')
     .get((req,res) => {
-    // var latitude = '49.246292' ;
-    // var longitude = '-123.116226' 
-    // var radius ='1000';
-    // var term = "bar";
-
     var latitude = req.query.latitude;
     var longitude = req.query.longitude;
     var radius =req.query.radius;
     var term = req.query.term;
     var yelpPromise = yelpAPI.getYelpRecommendation(latitude, longitude, radius, term);
-    //console.log(yelpPromise);
     yelpPromise.then(
         function(content){
             res.send({'Recommendations' : content});
+        },
+        function(err){
+            res.send("error at yelp: " + err);
         });
 });
 
 router.route('/sendInvite')
     .post((req,res) => {
-
-        var userId = req.body.id1;
         var friendId = req.body.id2;
         var messageBody = req.body.data;
 
@@ -254,43 +232,25 @@ router.route('/sendInvite')
         pushTokenPromise.then(
             function(content){
                 pushToken = content[0].pushToken;
-                console.log(pushToken);
                 res.send({'Token' : pushToken});
-                // Check that all your push tokens appear to be valid Expo push tokens
-                    // Check that all your push tokens appear to be valid Expo push tokens
-            if (!Expo.isExpoPushToken(pushToken)) {
-                console.error(`Push token ${pushToken} is not a valid Expo push token`);
-            }
-            var friendName= req.body.data.friendName;
-            
-            // Construct a message (see https://docs.expo.io/versions/latest/guides/push-notifications.html)
+                if (!Expo.isExpoPushToken(pushToken)) {
+                    console.error(`Push token ${pushToken} is not a valid Expo push token`);
+                }
+                var friendName= req.body.data.friendName;
                 let message = {
                     to: pushToken,
                     sound: 'default',
                     body: `${friendName} does not want to eat alone!`,
                     data: { withSome: messageBody}
                 };
-                //let tickets = [];
                 (async () => {
-                // Send the chunks to the Expo push notification service. There are
-                // different strategies you could use. A simple one is to send one chunk at a
-                // time, which nicely spreads the load out over time:
-                
                     try {
-                    let ticket = await expo.sendPushNotificationsAsync(message);
-                    console.log(ticket);
-                    //tickets.push(ticketChunk);
-                    // NOTE: If a ticket contains an error code in ticket.details.error, you
-                    // must handle it appropriately. The error codes are listed in the Expo
-                    // documentation:
-                    // https://docs.expo.io/versions/latest/guides/push-notifications#response-format 
+                        let ticket = await expo.sendPushNotificationsAsync(message);
                     } catch (error) {
-                    console.error(error);
+                        console.error(error);
                     }
-                
                 })();
         });
-
 });
 
 
