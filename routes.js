@@ -231,10 +231,19 @@ router.route('/sendInvite')
                     console.error(`Push token ${pushToken} is not a valid Expo push token`);
                 }
                 var friendName= req.body.data.friendName;
+                var notificationBody = `${friendName} does not want to eat alone!`;
+                if (!req.body.data.response){
+                    if(!req.body.data.accept){
+                        notificationBody = `${friendName} did not accept your request :(`;
+                    }
+                    else{
+                        notificationBody = `${friendName} accepted your request :)`;
+                    }
+                }
                 let message = {
                     to: pushToken,
                     sound: 'default',
-                    body: `${friendName} does not want to eat alone!`,
+                    body: notificationBody,
                     data: { withSome: messageBody}
                 };
                 (async () => {
