@@ -106,6 +106,20 @@ router.route('/getFriendsStatus')
 });
 
 
+var formatFriendsAvailability = function(friends, unavailableFriends){
+    var returnObject = [];
+    var bool;
+
+    for (var i = 0; i < friends.length; i++){ 
+        if (unavailableFriends.includes(friends[i])){
+            bool = false;
+        } else {
+            bool = true;
+        }
+        returnObject[i] = {id: friends[i], status: bool};
+    }
+    return returnObject;
+}
 
 //getDistance --> (id) --> [{id:id, distance:distance}]
 // tested --> works
@@ -132,7 +146,7 @@ router.route('/getDistance')
                         userLocation = content2[i].coordinates;
 
                         var distances = [];
-                        for(var i = 0; i < content2.length; i++){
+                        for(i = 0; i < content2.length; i++){
                             var distance = geolib.getDistance(
                                     {longitude: userLocation.long, latitude: userLocation.lat},
                                     {longitude: content2[i].coordinates.long, latitude: content2[i].coordinates.lat}
@@ -152,21 +166,6 @@ router.route('/getDistance')
             }
         );
 });
-
-var formatFriendsAvailability = function(friends, unavailableFriends){
-    var returnObject = [];
-    var bool;
-
-    for (var i = 0; i < friends.length; i++){ 
-        if (unavailableFriends.includes(friends[i])){
-            bool = false;
-        } else {
-            bool = true;
-        }
-        returnObject[i] = {id: friends[i], status: bool};
-    }
-    return returnObject;
-}
 
 //hash id
 router.route('/idHash')
