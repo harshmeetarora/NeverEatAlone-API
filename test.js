@@ -1,12 +1,11 @@
 //test.js
 var expect = require("chai").expect;
-var assert = require("chai").assert;
 var model = require('./Database/db.js');
 
 
 describe("addClient()", function(){
     it("should add and remove client", function(){
-        return returnPromise = model.addNewClient(clientObject1).then(function(content){
+            returnPromise = model.addNewClient(clientObject1).then(function(content){
             model.deleteClientById(clientObject1.id);
             expect(content.name).to.equal("Laurenz");
         }, function(err){
@@ -18,7 +17,7 @@ describe("addClient()", function(){
 
 describe("addCalendar()", function(){
     it("should add calendar object", function(){
-        return returnPromise = model.addCalendar(calendarObject2).then(
+            returnPromise = model.addCalendar(calendarObject2).then(
         function(content){
             model.deleteCalendar(calendarObject2.id);
             expect(content.id).to.equal("1");
@@ -31,7 +30,7 @@ describe("addCalendar()", function(){
 
 describe("getLocations()", function(){
     it("should getLocation", function(){
-        return returnPromise = model.getLocations([1]).then(function(content){
+            returnPromise = model.getLocations([1]).then(function(content){
             expect(content[0].coordinates.lat).to.equal(47.2606);
         }, function(err){
             console.log(err);
@@ -42,7 +41,7 @@ describe("getLocations()", function(){
 
 describe("updateLocations()", function(){
     it("should update Location", function(){
-        return returnPromise = model.updateLocation("101596347503975", newLocation1).then(function(content){
+            returnPromise = model.updateLocation("101596347503975", newLocation1).then(function(content){
             expect(content.n).to.equal(1);
         }, function(err){
             console.log(err);
@@ -53,7 +52,7 @@ describe("updateLocations()", function(){
 
 describe("getFriends()", function(){
     it("should get Friend array", function(){
-        return returnPromise = model.getFriends("101596347503975").then(function(content){
+            returnPromise = model.getFriends("101596347503975").then(function(content){
             expect(content[0].friends[0]).to.include({id: "104073207253345"});
         }, function(err){
             console.log(err);
